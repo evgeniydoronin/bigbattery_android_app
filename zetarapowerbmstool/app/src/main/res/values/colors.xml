@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Big Battery Brand Colors -->
-    <color name="bb_primary">#FF6B35</color>
-    <color name="bb_primary_dark">#E55A2B</color>
+    <color name="bb_primary">#165EA0</color>
+    <color name="bb_primary_dark">#0F4A7A</color>
     <color name="bb_secondary">#2C3E50</color>
     <color name="bb_background">#F8F9FA</color>
     <color name="bb_surface">#FFFFFF</color>
@@ -11,10 +11,10 @@
     <color name="bb_on_background">#2C3E50</color>
     
     <!-- Legacy colors (обновлены на Big Battery цвета) -->
-    <color name="colorPrimary">#FF6B35</color>
-    <color name="colorPrimaryDark">#E55A2B</color>
+    <color name="colorPrimary">#165EA0</color>
+    <color name="colorPrimaryDark">#0F4A7A</color>
     <color name="colorBackground">#F8F9FA</color>
-    <color name="colorAccent">#FF6B35</color>
+    <color name="colorAccent">#165EA0</color>
 
     <color name="naviBarBg">#FFFFFF</color>
 
@@ -26,18 +26,18 @@
     <color name="colorInfoBackground">#FFFFFF</color>
 
     <!-- Battery colors -->
-    <color name="batterBarColor">#FF6B35</color>
+    <color name="batterBarColor">#165EA0</color>
     <color name="batterRimColor">#E0E0E0</color>
     <color name="batterSpinColor">#2C3E50</color>
     <color name="batterTextColor">#2C3E50</color>
 
     <!-- Tab colors -->
-    <color name="colorTabSelected">#FF6B35</color>
+    <color name="colorTabSelected">#165EA0</color>
     <color name="colorTabUnselected">#9E9E9E</color>
 
     <!-- Scan colors -->
-    <color name="colorScanLoading">#FF6B35</color>
-    <color name="colorScanSignal">#FF6B35</color>
+    <color name="colorScanLoading">#165EA0</color>
+    <color name="colorScanSignal">#165EA0</color>
 
     <!-- Status Colors -->
     <color name="status_charging">#4CAF50</color>
@@ -45,9 +45,9 @@
     <color name="status_protecting">#F44336</color>
     
     <!-- Component Colors -->
-    <color name="battery_progress">#FF6B35</color>
+    <color name="battery_progress">#165EA0</color>
     <color name="battery_background">#E0E0E0</color>
-    <color name="tab_selected">#FF6B35</color>
+    <color name="tab_selected">#165EA0</color>
     <color name="tab_unselected">#9E9E9E</color>
 
 </resources>
