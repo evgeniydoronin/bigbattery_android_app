@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.zetarapower.monitor.ui.fragment.MainFragment"
+        android:name="com.zetarapower.monitor.ui.fragment.MainFragmentNew"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main_new" />
 
     <fragment
         android:id="@+id/navigation_detail"
