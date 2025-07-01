@@ -19,8 +19,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import at.grabner.circleprogress.CircleProgressView
+import com.clj.fastble.data.BleDevice
 import com.zetarapower.monitor.MainActivity
 import com.zetarapower.monitor.R
+import com.zetarapower.monitor.bluetooth.ZetaraBleUUID
 import com.zetarapower.monitor.logic.BMSData
 import com.zetarapower.monitor.ui.viewmodel.MainViewModel
 
@@ -139,9 +141,27 @@ class MainFragmentNew : Fragment() {
     private fun setupBluetoothClickListener() {
         bluetoothCard.setOnClickListener {
             if (activity != null) {
-                (activity as MainActivity).showScanDialog()
+                showScanDialogNew()
             }
         }
+    }
+
+    /**
+     * Показать новый диалог сканирования
+     */
+    private fun showScanDialogNew() {
+        val scanDialog = ScanFragmentNew().apply {
+            setConnectCallback(object : ConnectCallback {
+                override fun onConnected(bleDevice: BleDevice, uuid: ZetaraBleUUID?) {
+                    mainViewModel?.getBMSData(bleDevice, uuid)
+                }
+
+                override fun onDisconnected(bleDevice: BleDevice) {
+                    mainViewModel?.disConnectDevice(bleDevice)
+                }
+            })
+        }
+        scanDialog.show(parentFragmentManager, "scanDialogNew")
     }
 
     /**
