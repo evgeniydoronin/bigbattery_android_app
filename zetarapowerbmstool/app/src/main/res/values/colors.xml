@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2CE2FD</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorBackground">#1E71CC</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="naviBarBg">#0A1256</color>
+
+    <color name="colorTitle">#FFFFFF</color>
+
+    <color name="colorMainText">##384474</color>
+    <color name="colorInfoValue">#FFFFFF</color>
+    <color name="colorInfoTitle">#606A9D</color>
+    <color name="colorInfoBackground">#102346</color>
+
+    <color name="batterBarColor">#2CE2FD</color>
+    <color name="batterRimColor">#384474</color>
+    <color name="batterSpinColor">#FFFFFF</color>
+    <color name="batterTextColor">#FFFFFF</color>
+
+
+    <color name="colorTabSelected">#2CE2FD</color>
+    <color name="colorTabUnselected">#882CE2FD</color>
+
+    <color name="colorScanLoading">#2CE2FD</color>
+    <color name="colorScanSignal">#2CE2FD</color>
+
+</resources>

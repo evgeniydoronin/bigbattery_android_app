@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/main_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/home_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:paddingTop="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/device_logo"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/top_bluetooth" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/bluetooth_device_name"
+                android:gravity="center"
+                android:text="@string/title_home"
+                android:textStyle="bold"
+                android:textColor="@color/colorTitle"
+                android:textSize="20sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:paddingBottom="10dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="30dp">
+                <TextView
+                    android:id="@+id/device_status_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorTitle" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="10dp">
+
+                <FrameLayout
+                    android:layout_gravity="left"
+                    android:background="@drawable/circle_bg"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp">
+                    <ImageView
+                        android:id="@+id/charging_img"
+                        android:layout_marginTop="6dp"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="top|center_horizontal"
+                        android:src="@drawable/charging" />
+                    <at.grabner.circleprogress.CircleProgressView
+                        android:layout_gravity="center"
+                        android:id="@+id/circleView"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:cpv_barColor="@color/batterBarColor"
+                        app:cpv_barWidth="4dp"
+                        app:cpv_innerContourSize="0dp"
+                        app:cpv_maxValue="100"
+                        app:cpv_outerContourSize="0dp"
+                        app:cpv_rimColor="@color/batterRimColor"
+                        app:cpv_rimWidth="3dp"
+                        app:cpv_spinColor="@color/batterSpinColor"
+                        app:cpv_textColor="@color/batterTextColor"
+                        app:cpv_autoTextSize="true"
+                        app:cpv_textSize="15dp"
+                        app:cpv_showUnit="true"
+                        app:cpv_unit="%"
+                        app:cpv_unitColor="@color/batterTextColor"
+                        app:cpv_unitSize="15dp"
+                        app:cpv_unitPosition="right_bottom"
+                        app:cpv_value="70" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="25dp"
+                    android:gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorInfoValue"
+                    android:id="@+id/statusValue" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="10dp">
+                <com.zetarapower.monitor.ui.widgets.BatteryView
+                    android:id="@+id/batteryView"
+                    android:layout_width="95dp"
+                    android:layout_height="177dp"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:background="@drawable/item_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="45dp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:layout_weight="1.0">
+
+                    <ImageView
+                        android:id="@+id/voltageImage"
+                        android:layout_width="@dimen/info_logo_width"
+                        android:layout_height="@dimen/info_logo_height"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/voltage" />
+
+                    <TextView
+                        android:id="@+id/voltageValue"
+                        android:layout_below="@id/voltageImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="52.31v"
+                        android:textSize="@dimen/info_value_text_size"
+                        android:textColor="@color/colorInfoValue"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_below="@id/voltageValue"
+                        android:layout_marginTop="8dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/voltage_title"
+                        android:textSize="@dimen/info_text_size"
+                        android:textColor="@color/colorInfoTitle" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:layout_weight="1.0">
+
+                    <ImageView
+                        android:id="@+id/currentImage"
+                        android:layout_width="@dimen/info_logo_width"
+                        android:layout_height="@dimen/info_logo_height"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/current" />
+
+                    <TextView
+                        android:id="@+id/currentValue"
+                        android:layout_below="@id/currentImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="52.31v"
+                        android:textSize="@dimen/info_value_text_size"
+                        android:textColor="@color/colorInfoValue"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_below="@id/currentValue"
+                        android:layout_marginTop="8dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/current_title"
+                        android:textSize="@dimen/info_text_size"
+                        android:textColor="@color/colorInfoTitle" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:layout_weight="1.0">
+
+                    <ImageView
+                        android:id="@+id/tempImage"
+                        android:layout_width="@dimen/info_logo_width"
+                        android:layout_height="@dimen/info_logo_height"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/temperature" />
+
+                    <TextView
+                        android:id="@+id/tempValue"
+                        android:layout_below="@id/tempImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:textSize="@dimen/info_value_text_size"
+                        android:layout_centerHorizontal="true"
+                        android:text="150℃/302℉"
+                        android:textColor="@color/colorInfoValue"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_below="@id/tempValue"
+                        android:layout_marginTop="8dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/info_text_size"
+                        android:text="@string/temperature_title"
+                        android:textColor="@color/colorInfoTitle" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorBackground">#1E71CC</color>
+    <color name="colorAccent">#000000</color>
+
+    <color name="naviBarBg">#FFFFFF</color>
+    <color name="colorTitle">#000000</color>
+
+    <color name="colorMainText">#000000</color>
+    <color name="colorInfoValue">#000000</color>
+    <color name="colorInfoTitle">#858585</color>
+    <color name="colorInfoBackground">#102346</color>
+
+    <color name="colorTabSelected">#000000</color>
+    <color name="colorTabUnselected">#33000000</color>
+
+    <color name="colorScanLoading">#2CE2FD</color>
+    <color name="colorScanSignal">#2CE2FD</color>
+</resources>
