@@ -78,25 +78,9 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         previousMenuItem = navView.menu.findItem(R.id.navigation_home)
         navView.setOnNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.navigation_settings -> {
-                    if (BleManager.getInstance().allConnectedDevice != null
-                        && BleManager.getInstance().allConnectedDevice.isNotEmpty()
-                    ) {
-                        NavigationUI.onNavDestinationSelected(menuItem, navController)
-                    } else {
-                        showAlertDialog("Kindly connect the device first to access the 'Settings' tab") {
-                            previousMenuItem?.isChecked = true
-                        }
-                    }
-                    return@setOnNavigationItemSelectedListener true
-                }
-                else -> {
-                    // For other items, let NavigationUI handle the navigation
-                    previousMenuItem = menuItem
-                    NavigationUI.onNavDestinationSelected(menuItem, navController)
-                }
-            }
+            // Разрешаем доступ ко всем экранам без проверки подключения
+            previousMenuItem = menuItem
+            NavigationUI.onNavDestinationSelected(menuItem, navController)
         }
 
         if (getString(R.string.splash_screen) == "true") {
