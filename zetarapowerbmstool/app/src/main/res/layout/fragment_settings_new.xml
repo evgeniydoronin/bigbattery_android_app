@@ -19,7 +19,9 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:padding="16dp"
+        android:paddingTop="40dp"
         android:background="@color/bb_surface"
+        android:fitsSystemWindows="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
