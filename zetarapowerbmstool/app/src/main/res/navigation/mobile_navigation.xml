@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.zetarapower.monitor.ui.fragment.SettingsFragment"
+        android:name="com.zetarapower.monitor.ui.fragment.SettingsFragmentNew"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings_new" />
 </navigation>
