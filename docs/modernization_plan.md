@@ -1,5 +1,11 @@
 # План модернизации Android приложения Zetara Power BMS Tool
 
+## 🔗 Ссылки на исходные материалы
+
+- **iOS приложение (эталон):** `/Users/evgeniydoronin/Projects/Customers/bigBattery/apps/src/Re-Branded App/`
+- **Android приложение (текущее):** `zetarapowerbmstool/`
+- **Дизайн-ресурсы:** `/Users/evgeniydoronin/Projects/Customers/bigBattery/apps/src/BB-Branded App Assets/`
+
 ## 📋 Анализ текущего состояния
 
 ### iOS приложение (эталон)
