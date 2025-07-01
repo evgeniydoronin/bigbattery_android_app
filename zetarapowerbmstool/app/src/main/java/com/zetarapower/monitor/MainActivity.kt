@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -78,9 +79,18 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         previousMenuItem = navView.menu.findItem(R.id.navigation_home)
         navView.setOnNavigationItemSelectedListener { menuItem ->
-            // Разрешаем доступ ко всем экранам без проверки подключения
-            previousMenuItem = menuItem
-            NavigationUI.onNavDestinationSelected(menuItem, navController)
+            when (menuItem.itemId) {
+                R.id.navigation_shop -> {
+                    // Открываем браузер с сайтом Big Battery вместо навигации к фрагменту
+                    openBigBatteryWebsite()
+                    false // Не выполняем навигацию
+                }
+                else -> {
+                    // Обычная навигация для других пунктов меню
+                    previousMenuItem = menuItem
+                    NavigationUI.onNavDestinationSelected(menuItem, navController)
+                }
+            }
         }
 
         if (getString(R.string.splash_screen) == "true") {
@@ -418,6 +428,21 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("Cancel") { _, _ ->
 
             }.show()
+    }
+
+    /**
+     * Открывает сайт Big Battery в браузере
+     * Соответствует поведению iOS версии приложения
+     */
+    private fun openBigBatteryWebsite() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bigbattery.com"))
+            startActivity(intent)
+        } catch (e: Exception) {
+            // Обработка ошибки открытия браузера
+            Toast.makeText(this, "Unable to open website", Toast.LENGTH_SHORT).show()
+            FL.e(TAG, "Error opening Big Battery website: $e")
+        }
     }
 
     /**

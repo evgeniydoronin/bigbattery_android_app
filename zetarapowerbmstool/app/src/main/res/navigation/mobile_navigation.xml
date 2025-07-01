@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_main_new" />
 
     <fragment
-        android:id="@+id/navigation_detail"
-        android:name="com.zetarapower.monitor.ui.fragment.InfoFragmentNew"
-        android:label="@string/title_detail"
-        tools:layout="@layout/fragment_info_new" />
-
-    <fragment
         android:id="@+id/navigation_settings"
         android:name="com.zetarapower.monitor.ui.fragment.SettingsFragmentNew"
         android:label="@string/title_settings"
