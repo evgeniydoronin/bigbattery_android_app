@@ -28,14 +28,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Логотип Big Battery будет добавлен позже -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Big Battery"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/bb_primary" />
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:src="@drawable/logo"
+            android:scaleType="centerInside"
+            android:contentDescription="Big Battery Logo" />
 
     </LinearLayout>
 

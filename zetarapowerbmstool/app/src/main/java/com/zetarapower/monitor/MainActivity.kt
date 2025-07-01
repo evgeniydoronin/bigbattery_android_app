@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         
         // Настройка статус-бара нативными Android API
         setupStatusBar()
+        
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.itemIconTintList = null
         val navController = findNavController(R.id.nav_host_fragment)
