@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
             <!-- Protocol Settings Section -->
             <TextView
@@ -65,6 +65,7 @@
                 android:id="@+id/IdsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
@@ -131,6 +132,7 @@
                 android:id="@+id/CANContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
@@ -197,6 +199,7 @@
                 android:id="@+id/RS485Container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:layout_marginBottom="32dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
@@ -273,6 +276,7 @@
                 android:id="@+id/appSettingsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:layout_marginBottom="32dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
