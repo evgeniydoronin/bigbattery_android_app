@@ -268,6 +268,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/bb_on_surface"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />
 
             <!-- App Version Card -->
@@ -334,32 +335,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Big Battery Logo -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Big Battery"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/bb_primary"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Battery Management System"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorInfoTitle" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
