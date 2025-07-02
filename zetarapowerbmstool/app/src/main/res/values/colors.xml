@@ -2,6 +2,7 @@
 <resources>
     <!-- Big Battery Brand Colors -->
     <color name="bb_primary">#165EA0</color>
+    <color name="bb_green">#20811E</color>
     <color name="bb_primary_dark">#0F4A7A</color>
     <color name="bb_secondary">#2C3E50</color>
     <color name="bb_background">#F8F9FA</color>

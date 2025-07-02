@@ -12,35 +12,38 @@
     android:orientation="vertical">
 
     <!-- Summary Tab Content - как на iOS скриншоте -->
+    <!-- ОТСТУПЫ МЕЖДУ СТРОКАМИ: Убрать android:layout_marginBottom здесь для уменьшения отступа до второй строки -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="16dp"
         android:padding="4dp">
+        <!-- ОТСТУПЫ КАРТОЧЕК: android:padding="4dp" задает общий отступ контейнера -->
 
         <!-- Max Voltage -->
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="4dp"
+            android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="1dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
+            app:cardElevation="1dp"
             app:cardBackgroundColor="@color/bb_surface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/voltage"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/max_voltage"
                     app:tint="@color/bb_primary"
                     android:layout_marginBottom="8dp" />
 
@@ -49,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-- V"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/bb_on_surface" />
 
@@ -70,23 +73,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:layout_marginHorizontal="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="1dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
+            app:cardElevation="1dp"
             app:cardBackgroundColor="@color/bb_surface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/voltage"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/min_voltage"
                     app:tint="@color/bb_primary"
                     android:layout_marginBottom="8dp" />
 
@@ -95,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-- V"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/bb_on_surface" />
 
@@ -116,23 +121,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="4dp"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="1dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
+            app:cardElevation="1dp"
             app:cardBackgroundColor="@color/bb_surface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/voltage"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/voltage_dif"
                     app:tint="@color/bb_primary"
                     android:layout_marginBottom="8dp" />
 
@@ -141,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-- V"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/bb_on_surface" />
 
@@ -160,35 +167,38 @@
     </LinearLayout>
 
     <!-- Second Row -->
+    <!-- ОТСТУПЫ МЕЖДУ СТРОКАМИ: Убрать android:paddingBottom здесь для уменьшения отступа после второй строки -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
-        android:paddingBottom="8dp">
+        android:padding="4dp">
+        <!-- ОТСТУПЫ КАРТОЧЕК: android:layout_margin="4dp" на каждой карточке задает отступы между карточками -->
 
         <!-- Power -->
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="4dp"
+            android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="0dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
+            app:cardElevation="1dp"
             app:cardBackgroundColor="@color/bb_surface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/charging"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/power"
                     app:tint="@color/bb_primary"
                     android:layout_marginBottom="8dp" />
 
@@ -197,7 +207,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-- W"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/bb_on_surface" />
 
@@ -218,23 +228,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:layout_marginHorizontal="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="0dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
+            app:cardElevation="1dp"
             app:cardBackgroundColor="@color/bb_surface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/temperature"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/internal_temperature"
                     app:tint="@color/bb_primary"
                     android:layout_marginBottom="8dp" />
 
@@ -243,7 +255,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-- °F"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/bb_on_surface" />
 
@@ -264,23 +276,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="4dp"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="0dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
+            app:cardElevation="1dp"
             app:cardBackgroundColor="@color/bb_surface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/voltage"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ave_voltage"
                     app:tint="@color/bb_primary"
                     android:layout_marginBottom="8dp" />
 
@@ -289,7 +303,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-- V"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/bb_on_surface" />
 

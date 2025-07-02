@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Маска для скрытия НИЖНЕЙ части круга (оставляет верхнюю дугу как в iOS) -->
+    <item
+        android:top="150dp"
+        android:bottom="0dp"
+        android:left="0dp"
+        android:right="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/bb_background" />
+        </shape>
+    </item>
+    
+</layer-list>

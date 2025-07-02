@@ -11,7 +11,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bb_background">
+    android:background="@drawable/background_v2">
 
     <!-- Header с логотипом Big Battery -->
     <LinearLayout
@@ -56,8 +56,8 @@
                 android:id="@+id/bluetooth_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginBottom="0dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@color/bb_surface">
@@ -66,16 +66,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="2dp"
                     android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_baseline_bluetooth_24"
-                        android:background="@drawable/circle_bg"
-                        android:padding="8dp"
-                        app:tint="@color/bb_primary" />
+                        android:src="@drawable/bluetooth_new"
+                        android:padding="2dp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -93,13 +92,6 @@
                             android:textStyle="bold"
                             android:textColor="@color/bb_on_surface" />
 
-                        <TextView
-                            android:id="@+id/device_status_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Device Not Connected"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorInfoTitle" />
 
                     </LinearLayout>
 
@@ -113,45 +105,32 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Battery Progress Circle -->
+            <!-- Battery Progress Circle (как в iOS) -->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp">
 
                 <FrameLayout
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_bg">
+                    android:layout_width="360dp"
+                    android:layout_height="360dp"
+                    android:layout_marginBottom="-30dp"
+                    android:layout_gravity="center">
 
-                    <!-- Изображение батареи в центре -->
+                    <!-- Изображение husky2 в центре (как в iOS) - увеличенное -->
                     <ImageView
-                        android:layout_width="120dp"
-                        android:layout_height="80dp"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/battery_bg"
-                        android:scaleType="centerInside" />
+                        android:src="@drawable/husky2"
+                        android:scaleType="centerCrop" />
 
-                    <!-- Круговая диаграмма -->
-                    <at.grabner.circleprogress.CircleProgressView
+                    <!-- Кастомная дуга 240° (как в iOS) -->
+                    <com.zetarapower.monitor.ui.widgets.ArcProgressView
                         android:id="@+id/circleView"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:layout_gravity="center"
-                        app:cpv_barColor="@color/bb_primary"
-                        app:cpv_barWidth="8dp"
-                        app:cpv_innerContourSize="0dp"
-                        app:cpv_maxValue="100"
-                        app:cpv_outerContourSize="0dp"
-                        app:cpv_rimColor="@color/battery_background"
-                        app:cpv_rimWidth="8dp"
-                        app:cpv_spinColor="@color/bb_on_surface"
-                        app:cpv_textColor="@color/bb_on_surface"
-                        app:cpv_autoTextSize="false"
-                        app:cpv_textSize="0dp"
-                        app:cpv_showUnit="false"
-                        app:cpv_value="0" />
+                        android:layout_width="320dp"
+                        android:layout_height="320dp"
+                        android:layout_gravity="center" />
 
                     <!-- Иконка зарядки -->
                     <ImageView
@@ -159,46 +138,55 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="top|center_horizontal"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="30dp"
                         android:src="@drawable/charging"
                         android:visibility="gone"
                         app:tint="@color/status_charging" />
 
                 </FrameLayout>
 
-                <!-- Процент заряда под кругом -->
+                <!-- Процент заряда внизу с метками 0 и 100 (как в iOS) -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginBottom="20dp"
-                    android:background="@color/status_protecting"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="0dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
+                    <!-- Метка "0" слева -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textSize="16sp"
-                        android:textColor="@color/bb_surface" />
+                        android:textStyle="bold"
+                        android:textColor="@color/bb_on_surface"
+                        android:layout_marginEnd="50dp" />
 
+                    <!-- Процент с цветным фоном -->
                     <TextView
                         android:id="@+id/battery_percentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0%"
-                        android:textSize="24sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"
-                        android:textColor="@color/bb_surface" />
+                        android:textColor="@color/bb_surface"
+                        android:background="@drawable/battery_percentage_bg"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        android:layout_gravity="center" />
 
+                    <!-- Метка "100" справа -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="100"
                         android:textSize="16sp"
-                        android:textColor="@color/bb_surface" />
+                        android:textStyle="bold"
+                        android:textColor="@color/bb_on_surface"
+                        android:layout_marginStart="50dp" />
 
                 </LinearLayout>
 
@@ -228,14 +216,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp"
+                        android:padding="6dp"
                         android:gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-- V"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="@color/bb_on_surface" />
 
@@ -247,30 +235,20 @@
                             android:layout_marginTop="8dp">
 
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
                                 android:src="@drawable/voltage"
                                 app:tint="@color/bb_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="4dp"
                                 android:text="Total Voltage"
-                                android:textSize="12sp"
+                                android:textSize="10sp"
                                 android:textColor="@color/colorInfoTitle" />
 
                         </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/voltageValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="--"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/bb_on_surface"
-                            android:layout_marginTop="4dp" />
 
                     </LinearLayout>
 
@@ -291,14 +269,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp"
+                        android:padding="6dp"
                         android:gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-- A"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="@color/bb_on_surface" />
 
@@ -310,30 +288,20 @@
                             android:layout_marginTop="8dp">
 
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
                                 android:src="@drawable/current"
                                 app:tint="@color/bb_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="4dp"
                                 android:text="Total Current"
-                                android:textSize="12sp"
+                                android:textSize="10sp"
                                 android:textColor="@color/colorInfoTitle" />
 
                         </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/currentValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="--"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/bb_on_surface"
-                            android:layout_marginTop="4dp" />
 
                     </LinearLayout>
 
@@ -354,14 +322,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp"
+                        android:padding="6dp"
                         android:gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-- °F/-- °C"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="@color/bb_on_surface" />
 
@@ -373,30 +341,20 @@
                             android:layout_marginTop="8dp">
 
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
                                 android:src="@drawable/temperature"
                                 app:tint="@color/bb_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="4dp"
                                 android:text="Total Temp."
-                                android:textSize="12sp"
+                                android:textSize="10sp"
                                 android:textColor="@color/colorInfoTitle" />
 
                         </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/tempValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="--"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/bb_on_surface"
-                            android:layout_marginTop="4dp" />
 
                     </LinearLayout>
 
@@ -409,7 +367,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/tab_summary"
@@ -417,11 +376,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Summary"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    android:textColor="@color/bb_surface"
-                    android:background="@color/bb_primary"
-                    android:padding="12dp"
+                    android:textColor="@color/bb_green"
+                    android:background="@drawable/tab_selected_bg"
+                    android:padding="10dp"
                     android:gravity="center"
                     android:layout_marginEnd="4dp" />
 
@@ -431,10 +390,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Cell Voltage"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@color/bb_on_surface"
-                    android:background="@color/bb_surface"
-                    android:padding="12dp"
+                    android:background="@drawable/tab_unselected_bg"
+                    android:padding="10dp"
                     android:gravity="center"
                     android:layout_marginHorizontal="4dp" />
 
@@ -444,10 +403,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Temperature"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@color/bb_on_surface"
-                    android:background="@color/bb_surface"
-                    android:padding="12dp"
+                    android:background="@drawable/tab_unselected_bg"
+                    android:padding="10dp"
                     android:gravity="center"
                     android:layout_marginStart="4dp" />
 

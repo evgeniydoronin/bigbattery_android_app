@@ -3,65 +3,21 @@
     Created by Evgenii Doronin
     LinkedIn: https://www.linkedin.com/in/evgeniydoronin
     
-    Cell Voltage Tab Content - детали напряжений ячеек
+    Cell Voltage Tab Content - сетка напряжений ячеек батареи
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!-- Cell Voltage Tab Content - простая заглушка пока -->
-    <androidx.cardview.widget.CardView
+    <!-- RecyclerView для отображения ячеек в сетке -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cell_voltage_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/bb_surface"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:padding="4dp"
+        android:clipToPadding="false" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/voltage"
-                app:tint="@color/bb_primary"
-                android:layout_marginBottom="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cell Voltage Details"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/bb_on_surface"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Individual cell voltages will be displayed here"
-                android:textSize="14sp"
-                android:textColor="@color/colorInfoTitle"
-                android:gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Coming in next update..."
-                android:textSize="12sp"
-                android:textColor="@color/bb_primary"
-                android:layout_marginTop="8dp"
-                android:textStyle="italic" />
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

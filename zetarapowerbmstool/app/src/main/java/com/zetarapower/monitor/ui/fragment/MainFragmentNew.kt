@@ -18,12 +18,18 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import at.grabner.circleprogress.CircleProgressView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.zetarapower.monitor.ui.widgets.ArcProgressView
 import com.clj.fastble.data.BleDevice
 import com.zetarapower.monitor.MainActivity
 import com.zetarapower.monitor.R
 import com.zetarapower.monitor.bluetooth.ZetaraBleUUID
 import com.zetarapower.monitor.logic.BMSData
+import com.zetarapower.monitor.ui.adapter.CellVoltageAdapter
+import com.zetarapower.monitor.ui.adapter.CellVoltageItemDecoration
+import com.zetarapower.monitor.ui.adapter.TemperatureSensorAdapter
 import com.zetarapower.monitor.ui.viewmodel.MainViewModel
 
 /**
@@ -37,17 +43,13 @@ class MainFragmentNew : Fragment() {
     // Header и Bluetooth панель
     private lateinit var bluetoothCard: CardView
     private lateinit var bluetoothDeviceName: TextView
-    private lateinit var deviceStatusText: TextView
 
     // Battery Progress
-    private lateinit var circleView: CircleProgressView
+    private lateinit var circleView: ArcProgressView
     private lateinit var chargingImage: ImageView
     private lateinit var batteryPercentage: TextView
 
-    // Parameters Cards
-    private lateinit var voltageValue: TextView
-    private lateinit var currentValue: TextView
-    private lateinit var tempValue: TextView
+    // Parameters Cards - основные значения теперь статичны в layout
 
     // Tabs
     private lateinit var tabSummary: TextView
@@ -66,6 +68,14 @@ class MainFragmentNew : Fragment() {
     private lateinit var powerValue: TextView
     private lateinit var internalTempValue: TextView
     private lateinit var avgVoltageValue: TextView
+
+    // Cell Voltage Tab
+    private lateinit var cellVoltageRecyclerView: RecyclerView
+    private lateinit var cellVoltageAdapter: CellVoltageAdapter
+
+    // Temperature Tab
+    private lateinit var temperatureRecyclerView: RecyclerView
+    private lateinit var temperatureAdapter: TemperatureSensorAdapter
 
     private var currentTab = 0 // 0 = Summary, 1 = Cell Voltage, 2 = Temperature
 
@@ -95,17 +105,13 @@ class MainFragmentNew : Fragment() {
         // Bluetooth панель
         bluetoothCard = root.findViewById(R.id.bluetooth_card)
         bluetoothDeviceName = root.findViewById(R.id.bluetooth_device_name)
-        deviceStatusText = root.findViewById(R.id.device_status_text)
 
         // Battery Progress
         circleView = root.findViewById(R.id.circleView)
         chargingImage = root.findViewById(R.id.charging_img)
         batteryPercentage = root.findViewById(R.id.battery_percentage)
 
-        // Parameters
-        voltageValue = root.findViewById(R.id.voltageValue)
-        currentValue = root.findViewById(R.id.currentValue)
-        tempValue = root.findViewById(R.id.tempValue)
+        // Parameters - основные значения теперь статичны в layout
 
         // Tabs
         tabSummary = root.findViewById(R.id.tab_summary)
@@ -124,6 +130,48 @@ class MainFragmentNew : Fragment() {
         powerValue = root.findViewById(R.id.power_value)
         internalTempValue = root.findViewById(R.id.internal_temp_value)
         avgVoltageValue = root.findViewById(R.id.avg_voltage_value)
+
+        // Cell Voltage Tab - настройка RecyclerView
+        setupCellVoltageRecyclerView(root)
+        
+        // Temperature Tab - настройка RecyclerView
+        setupTemperatureRecyclerView(root)
+    }
+
+    /**
+     * Настройка RecyclerView для Cell Voltage таба
+     */
+    private fun setupCellVoltageRecyclerView(root: View) {
+        cellVoltageRecyclerView = root.findViewById(R.id.cell_voltage_recycler_view)
+        cellVoltageAdapter = CellVoltageAdapter()
+        
+        // Настройка GridLayoutManager с 4 колонками для компактного отображения
+        val gridLayoutManager = GridLayoutManager(context, 4)
+        cellVoltageRecyclerView.layoutManager = gridLayoutManager
+        cellVoltageRecyclerView.adapter = cellVoltageAdapter
+        
+        // Добавляем ItemDecoration для отступов между рядами
+        val itemDecoration = CellVoltageItemDecoration(spanCount = 4, rowSpacing = 6)
+        cellVoltageRecyclerView.addItemDecoration(itemDecoration)
+        
+        // Инициализация с 16 ячейками с прочерками по умолчанию
+        cellVoltageAdapter.updateCellVoltages(FloatArray(0), 0)
+    }
+
+    /**
+     * Настройка RecyclerView для Temperature таба
+     */
+    private fun setupTemperatureRecyclerView(root: View) {
+        temperatureRecyclerView = root.findViewById(R.id.temperature_recycler_view)
+        temperatureAdapter = TemperatureSensorAdapter()
+        
+        // Настройка LinearLayoutManager для вертикального списка (как в iOS)
+        val linearLayoutManager = LinearLayoutManager(context)
+        temperatureRecyclerView.layoutManager = linearLayoutManager
+        temperatureRecyclerView.adapter = temperatureAdapter
+        
+        // Инициализация без данных - будут загружены при подключении к батарее
+        temperatureAdapter.updateTemperatureSensors(0, ByteArray(0))
     }
 
     /**
@@ -200,27 +248,25 @@ class MainFragmentNew : Fragment() {
      */
     private fun resetTabStyles() {
         val inactiveColor = resources.getColor(R.color.bb_on_surface, null)
-        val inactiveBackground = resources.getColor(R.color.bb_surface, null)
 
         tabSummary.setTextColor(inactiveColor)
-        tabSummary.setBackgroundColor(inactiveBackground)
+        tabSummary.setBackgroundResource(R.drawable.tab_unselected_bg)
 
         tabCellVoltage.setTextColor(inactiveColor)
-        tabCellVoltage.setBackgroundColor(inactiveBackground)
+        tabCellVoltage.setBackgroundResource(R.drawable.tab_unselected_bg)
 
         tabTemperature.setTextColor(inactiveColor)
-        tabTemperature.setBackgroundColor(inactiveBackground)
+        tabTemperature.setBackgroundResource(R.drawable.tab_unselected_bg)
     }
 
     /**
      * Активация выбранного таба
      */
     private fun activateTab(tab: TextView) {
-        val activeColor = resources.getColor(R.color.bb_surface, null)
-        val activeBackground = resources.getColor(R.color.bb_primary, null)
+        val activeColor = resources.getColor(R.color.bb_green, null)
 
         tab.setTextColor(activeColor)
-        tab.setBackgroundColor(activeBackground)
+        tab.setBackgroundResource(R.drawable.tab_selected_bg)
     }
 
     /**
@@ -232,10 +278,10 @@ class MainFragmentNew : Fragment() {
             updateBMSData(bmsData)
         })
 
-        // Статус подключения
-        mainViewModel?.updateStatus?.observe(viewLifecycleOwner, Observer<String> { status ->
-            deviceStatusText.text = status?.toString() ?: "Device Not Connected"
-        })
+        // Статус подключения - больше не отображается в UI
+        // mainViewModel?.updateStatus?.observe(viewLifecycleOwner, Observer<String> { status ->
+        //     // Статус больше не отображается в Bluetooth панели
+        // })
 
         // Имя подключенного устройства
         mainViewModel?.connectedDeviceName?.observe(viewLifecycleOwner, Observer<String> { name ->
@@ -247,16 +293,12 @@ class MainFragmentNew : Fragment() {
      * Обновление данных BMS на UI
      */
     private fun updateBMSData(data: BMSData) {
-        // Обновление круговой диаграммы
-        circleView.setValue(data.soc.toFloat())
+        // Обновление дуги прогресса
+        circleView.setProgress(data.soc)
         batteryPercentage.text = "${data.soc}%"
 
-        // Обновление основных параметров
-        voltageValue.text = "${data.voltage}V"
-        currentValue.text = "${data.current}A"
-        
-        val tempF = (32 + data.tempEnv * 1.8).toInt()
-        tempValue.text = "${data.tempEnv}°C/${tempF}℉"
+        // Основные параметры теперь статичны в layout
+        // Реальные значения отображаются в Summary табе
 
         // Обновление иконки зарядки
         if (data.status == 1) {
@@ -267,23 +309,78 @@ class MainFragmentNew : Fragment() {
 
         // Обновление Summary таба (если есть дополнительные данные)
         updateSummaryTab(data)
+        
+        // Обновление Cell Voltage таба
+        updateCellVoltageTab(data)
+        
+        // Обновление Temperature таба
+        updateTemperatureTab(data)
     }
 
     /**
-     * Обновление данных Summary таба
+     * Обновление данных Cell Voltage таба
+     */
+    private fun updateCellVoltageTab(data: BMSData) {
+        // Обновляем адаптер с реальным количеством ячеек из BMSData
+        // Адаптер сам покажет 16 ячеек с прочерками если нет данных
+        cellVoltageAdapter.updateCellVoltages(data.cellVoltages, data.cellCount)
+    }
+
+    /**
+     * Обновление данных Summary таба с реальными расчетами
      */
     private fun updateSummaryTab(data: BMSData) {
-        // Пока используем базовые данные, позже добавим расчеты
-        maxVoltageValue.text = "${data.voltage}V" // Заглушка
-        minVoltageValue.text = "${data.voltage}V" // Заглушка
-        voltageDiffValue.text = "0.0V" // Заглушка
+        // Получаем валидные напряжения ячеек
+        val validVoltages = data.cellVoltages.take(data.cellCount).filter { it > 0 }
+        
+        if (validVoltages.isNotEmpty()) {
+            // Реальные расчеты на основе ячеек
+            val maxVoltage = validVoltages.maxOrNull() ?: 0f
+            val minVoltage = validVoltages.minOrNull() ?: 0f
+            val avgVoltage = validVoltages.average().toFloat()
+            val voltageDiff = maxVoltage - minVoltage
+            
+            maxVoltageValue.text = "${String.format("%.2f", maxVoltage)}V"
+            minVoltageValue.text = "${String.format("%.2f", minVoltage)}V"
+            voltageDiffValue.text = "${String.format("%.3f", voltageDiff)}V"
+            avgVoltageValue.text = "${String.format("%.2f", avgVoltage)}V"
+        } else {
+            // Fallback к общему напряжению если нет данных ячеек
+            if (data.voltage > 0) {
+                maxVoltageValue.text = "${String.format("%.2f", data.voltage)}V"
+                minVoltageValue.text = "${String.format("%.2f", data.voltage)}V"
+                avgVoltageValue.text = "${String.format("%.2f", data.voltage)}V"
+            } else {
+                maxVoltageValue.text = "-- V"
+                minVoltageValue.text = "-- V"
+                avgVoltageValue.text = "-- V"
+            }
+            voltageDiffValue.text = "-- V"
+        }
         
         // Расчет мощности
         val power = data.voltage * data.current
-        powerValue.text = "${String.format("%.1f", power)}W"
+        if (power != 0f) {
+            powerValue.text = "${String.format("%.1f", power)}W"
+        } else {
+            powerValue.text = "-- W"
+        }
         
-        internalTempValue.text = "${data.tempEnv}°F"
-        avgVoltageValue.text = "${data.voltage}V" // Заглушка
+        // Внутренняя температура
+        if (data.tempEnv.toInt() != 0) {
+            internalTempValue.text = "${data.tempEnv}°F"
+        } else {
+            internalTempValue.text = "-- °F"
+        }
+    }
+
+    /**
+     * Обновление данных Temperature таба
+     */
+    private fun updateTemperatureTab(data: BMSData) {
+        // Обновляем адаптер с новыми температурными данными
+        // Адаптер сам покажет датчики с прочерками если нет данных
+        temperatureAdapter.updateTemperatureSensors(data.tempPCB, data.cellTempArray)
     }
 
     companion object {
