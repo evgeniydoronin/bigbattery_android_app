@@ -315,7 +315,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Big Battery BMS Tool"
+                            android:text="BigBattery Husky 2"
                             android:textSize="12sp"
                             android:textColor="@color/colorInfoTitle"
                             android:layout_marginTop="2dp" />
