@@ -7,10 +7,13 @@ package com.zetarapower.monitor.ui.fragment
  * Современный фрагмент сканирования устройств с Big Battery дизайном
  */
 
+import android.Manifest
 import android.app.Dialog
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattService
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -24,6 +27,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.Nullable
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,9 +54,24 @@ class ScanFragmentNew : DialogFragment() {
 
     companion object {
         private const val TAG = "ScanFragmentNew"
+        private const val REQUEST_BLUETOOTH_PERMISSIONS = 1001
     }
 
     private val mDeviceAdapter = DeviceAdapter()
+    
+    // Разрешения для Bluetooth
+    private val bluetoothPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        arrayOf(
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    } else {
+        arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+    }
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var imgLoading: ImageView
@@ -117,9 +137,63 @@ class ScanFragmentNew : DialogFragment() {
     }
 
     /**
-     * Запуск сканирования устройств
+     * Проверка разрешений Bluetooth
+     */
+    private fun checkBluetoothPermissions(): Boolean {
+        return bluetoothPermissions.all { permission ->
+            ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    /**
+     * Запрос разрешений Bluetooth
+     */
+    private fun requestBluetoothPermissions() {
+        requestPermissions(bluetoothPermissions, REQUEST_BLUETOOTH_PERMISSIONS)
+    }
+
+    /**
+     * Обработка результата запроса разрешений
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        
+        when (requestCode) {
+            REQUEST_BLUETOOTH_PERMISSIONS -> {
+                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                    // Все разрешения получены, запускаем сканирование
+                    performScan()
+                } else {
+                    // Разрешения не получены
+                    showToast("Bluetooth permissions are required for scanning devices")
+                    btnScan.text = getString(R.string.start_scan)
+                    btnScan.setBackgroundColor(resources.getColor(R.color.bb_primary, null))
+                    imgLoading.clearAnimation()
+                    imgLoading.visibility = View.INVISIBLE
+                }
+            }
+        }
+    }
+
+    /**
+     * Запуск сканирования устройств с проверкой разрешений
      */
     private fun startScan() {
+        if (checkBluetoothPermissions()) {
+            performScan()
+        } else {
+            requestBluetoothPermissions()
+        }
+    }
+
+    /**
+     * Выполнение сканирования (после получения разрешений)
+     */
+    private fun performScan() {
         BleManager.getInstance().scan(object : BleScanCallback() {
             override fun onScanStarted(success: Boolean) {
                 mDeviceAdapter.clear()

@@ -31,6 +31,7 @@ import com.zetarapower.monitor.ui.adapter.CellVoltageAdapter
 import com.zetarapower.monitor.ui.adapter.CellVoltageItemDecoration
 import com.zetarapower.monitor.ui.adapter.TemperatureSensorAdapter
 import com.zetarapower.monitor.ui.viewmodel.MainViewModel
+import com.zetarapower.monitor.ui.fragment.ConnectCallback
 
 /**
  * Новый Main Fragment с современным дизайном Big Battery
