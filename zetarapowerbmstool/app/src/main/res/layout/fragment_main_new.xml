@@ -220,6 +220,7 @@
                         android:gravity="center">
 
                         <TextView
+                            android:id="@+id/total_voltage_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-- V"
@@ -273,6 +274,7 @@
                         android:gravity="center">
 
                         <TextView
+                            android:id="@+id/total_current_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-- A"
@@ -326,6 +328,7 @@
                         android:gravity="center">
 
                         <TextView
+                            android:id="@+id/total_temperature_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-- °F/-- °C"

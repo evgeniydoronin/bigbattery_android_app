@@ -50,7 +50,10 @@ class MainFragmentNew : Fragment() {
     private lateinit var chargingImage: ImageView
     private lateinit var batteryPercentage: TextView
 
-    // Parameters Cards - основные значения теперь статичны в layout
+    // Parameters Cards - основные значения
+    private lateinit var totalVoltageValue: TextView
+    private lateinit var totalCurrentValue: TextView
+    private lateinit var totalTemperatureValue: TextView
 
     // Tabs
     private lateinit var tabSummary: TextView
@@ -112,7 +115,10 @@ class MainFragmentNew : Fragment() {
         chargingImage = root.findViewById(R.id.charging_img)
         batteryPercentage = root.findViewById(R.id.battery_percentage)
 
-        // Parameters - основные значения теперь статичны в layout
+        // Parameters Cards - основные значения
+        totalVoltageValue = root.findViewById(R.id.total_voltage_value)
+        totalCurrentValue = root.findViewById(R.id.total_current_value)
+        totalTemperatureValue = root.findViewById(R.id.total_temperature_value)
 
         // Tabs
         tabSummary = root.findViewById(R.id.tab_summary)
@@ -298,8 +304,8 @@ class MainFragmentNew : Fragment() {
         circleView.setProgress(data.soc)
         batteryPercentage.text = "${data.soc}%"
 
-        // Основные параметры теперь статичны в layout
-        // Реальные значения отображаются в Summary табе
+        // Обновление основных параметров в карточках
+        updateTotalParametersCards(data)
 
         // Обновление иконки зарядки
         if (data.status == 1) {
@@ -382,6 +388,35 @@ class MainFragmentNew : Fragment() {
         // Обновляем адаптер с новыми температурными данными
         // Адаптер сам покажет датчики с прочерками если нет данных
         temperatureAdapter.updateTemperatureSensors(data.tempPCB, data.cellTempArray)
+    }
+
+    /**
+     * Обновление основных параметров в карточках на главном экране
+     */
+    private fun updateTotalParametersCards(data: BMSData) {
+        // Total Voltage
+        if (data.voltage > 0) {
+            totalVoltageValue.text = "${String.format("%.2f", data.voltage)}V"
+        } else {
+            totalVoltageValue.text = "-- V"
+        }
+
+        // Total Current
+        if (data.current != 0f) {
+            totalCurrentValue.text = "${String.format("%.2f", data.current)}A"
+        } else {
+            totalCurrentValue.text = "-- A"
+        }
+
+        // Total Temperature - используем tempEnv (температура окружающей среды)
+        if (data.tempEnv.toInt() != 0) {
+            // Конвертируем из Fahrenheit в Celsius для отображения обеих единиц
+            val tempF = data.tempEnv.toInt()
+            val tempC = ((tempF - 32) * 5 / 9)
+            totalTemperatureValue.text = "${tempF}°F/${tempC}°C"
+        } else {
+            totalTemperatureValue.text = "-- °F/-- °C"
+        }
     }
 
     companion object {
