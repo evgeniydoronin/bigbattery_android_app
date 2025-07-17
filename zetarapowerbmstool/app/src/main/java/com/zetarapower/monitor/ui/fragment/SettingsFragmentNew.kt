@@ -155,21 +155,21 @@ class SettingsFragmentNew : Fragment() {
         })
 
         // CAN Protocol observer
-        mainViewModel?.canData?.observe(viewLifecycleOwner, Observer<SettingsProtocolData> { data ->
-            if (data != null) {
-                val index = data.selectedIndex
-                if (data.protocolArray != null && data.protocolArray.size > index) {
-                    selectedCANText.text = data.protocolArray[index]
+        mainViewModel?.canData?.observe(viewLifecycleOwner, Observer<SettingsProtocolData?> { data ->
+            data?.let {
+                val index = it.selectedIndex
+                if (it.protocolArray != null && it.protocolArray.size > index) {
+                    selectedCANText.text = it.protocolArray[index]
                 }
             }
         })
 
         // RS485 Protocol observer
-        mainViewModel?.rs485Protocol?.observe(viewLifecycleOwner, Observer<SettingsProtocolData> { data ->
-            if (data != null) {
-                val index = data.selectedIndex
-                if (data.protocolArray != null && data.protocolArray.size > index) {
-                    selectedRS485Text.text = data.protocolArray[index]
+        mainViewModel?.rs485Protocol?.observe(viewLifecycleOwner, Observer<SettingsProtocolData?> { data ->
+            data?.let {
+                val index = it.selectedIndex
+                if (it.protocolArray != null && it.protocolArray.size > index) {
+                    selectedRS485Text.text = it.protocolArray[index]
                 }
             }
         })
