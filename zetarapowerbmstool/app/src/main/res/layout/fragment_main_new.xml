@@ -132,16 +132,6 @@
                         android:layout_height="320dp"
                         android:layout_gravity="center" />
 
-                    <!-- Иконка зарядки -->
-                    <ImageView
-                        android:id="@+id/charging_img"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="top|center_horizontal"
-                        android:layout_marginTop="30dp"
-                        android:src="@drawable/charging"
-                        android:visibility="gone"
-                        app:tint="@color/status_charging" />
 
                 </FrameLayout>
 
@@ -191,6 +181,22 @@
                 </LinearLayout>
 
             </FrameLayout>
+
+            <!-- Статус батареи (отдельный блок) -->
+            <TextView
+                android:id="@+id/battery_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="Standby"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/bb_on_surface"
+                android:background="@drawable/battery_status_standby"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp" />
 
             <!-- Parameters Cards -->
             <LinearLayout
@@ -419,8 +425,7 @@
             <FrameLayout
                 android:id="@+id/tab_content_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="200dp">
+                android:layout_height="wrap_content">
 
                 <!-- Summary Tab Content (по умолчанию видимый) -->
                 <include

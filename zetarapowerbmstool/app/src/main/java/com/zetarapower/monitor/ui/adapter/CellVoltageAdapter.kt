@@ -38,14 +38,8 @@ class CellVoltageAdapter : RecyclerView.Adapter<CellVoltageAdapter.CellVoltageVi
         // Проверяем, есть ли реальные данные в ячейках
         val hasRealData = voltages.any { it > 0 }
         
-        // Определяем количество ячеек для отображения
-        val displayCellCount = if (hasRealData && cellCount > 0) {
-            // Есть реальные данные - используем реальное количество
-            cellCount
-        } else {
-            // Нет реальных данных - показываем 16 ячеек по умолчанию
-            16
-        }
+        // Всегда показываем минимум 16 ячеек для единообразия UI (4 ряда по 4)
+        val displayCellCount = maxOf(cellCount, 16)
         
         // Создаем ячейки
         for (i in 0 until displayCellCount) {

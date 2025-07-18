@@ -15,9 +15,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/temperature_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="280dp"
         android:padding="8dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:nestedScrollingEnabled="true" />
 
 
 </LinearLayout>

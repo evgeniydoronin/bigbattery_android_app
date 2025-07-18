@@ -42,8 +42,10 @@
 
     <!-- Status Colors -->
     <color name="status_charging">#4CAF50</color>
+    <color name="status_discharging">#FF9800</color>
     <color name="status_standby">#FFC107</color>
     <color name="status_protecting">#F44336</color>
+    <color name="status_charging_limit">#2196F3</color>
     
     <!-- Component Colors -->
     <color name="battery_progress">#165EA0</color>

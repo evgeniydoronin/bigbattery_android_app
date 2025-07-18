@@ -47,8 +47,8 @@ class MainFragmentNew : Fragment() {
 
     // Battery Progress
     private lateinit var circleView: ArcProgressView
-    private lateinit var chargingImage: ImageView
     private lateinit var batteryPercentage: TextView
+    private lateinit var batteryStatus: TextView
 
     // Parameters Cards - основные значения
     private lateinit var totalVoltageValue: TextView
@@ -112,8 +112,8 @@ class MainFragmentNew : Fragment() {
 
         // Battery Progress
         circleView = root.findViewById(R.id.circleView)
-        chargingImage = root.findViewById(R.id.charging_img)
         batteryPercentage = root.findViewById(R.id.battery_percentage)
+        batteryStatus = root.findViewById(R.id.battery_status)
 
         // Parameters Cards - основные значения
         totalVoltageValue = root.findViewById(R.id.total_voltage_value)
@@ -143,6 +143,9 @@ class MainFragmentNew : Fragment() {
         
         // Temperature Tab - настройка RecyclerView
         setupTemperatureRecyclerView(root)
+        
+        // Инициализация статуса батареи по умолчанию (как в iOS)
+        initializeDefaultBatteryStatus()
     }
 
     /**
@@ -156,6 +159,10 @@ class MainFragmentNew : Fragment() {
         val gridLayoutManager = GridLayoutManager(context, 4)
         cellVoltageRecyclerView.layoutManager = gridLayoutManager
         cellVoltageRecyclerView.adapter = cellVoltageAdapter
+        
+        // Полностью отключаем скролл RecyclerView
+        cellVoltageRecyclerView.isNestedScrollingEnabled = false
+        cellVoltageRecyclerView.overScrollMode = View.OVER_SCROLL_NEVER
         
         // Добавляем ItemDecoration для отступов между рядами
         val itemDecoration = CellVoltageItemDecoration(spanCount = 4, rowSpacing = 6)
@@ -176,6 +183,9 @@ class MainFragmentNew : Fragment() {
         val linearLayoutManager = LinearLayoutManager(context)
         temperatureRecyclerView.layoutManager = linearLayoutManager
         temperatureRecyclerView.adapter = temperatureAdapter
+        
+        // Включаем внутренний скролл для Temperature RecyclerView (может быть много датчиков)
+        temperatureRecyclerView.isNestedScrollingEnabled = true
         
         // Инициализация без данных - будут загружены при подключении к батарее
         temperatureAdapter.updateTemperatureSensors(0, ByteArray(0))
@@ -307,12 +317,8 @@ class MainFragmentNew : Fragment() {
         // Обновление основных параметров в карточках
         updateTotalParametersCards(data)
 
-        // Обновление иконки зарядки
-        if (data.status == 1) {
-            chargingImage.visibility = View.VISIBLE
-        } else {
-            chargingImage.visibility = View.GONE
-        }
+        // Обновление статуса батареи
+        updateBatteryStatus(data)
 
         // Обновление Summary таба (если есть дополнительные данные)
         updateSummaryTab(data)
@@ -417,6 +423,59 @@ class MainFragmentNew : Fragment() {
         } else {
             totalTemperatureValue.text = "-- °F/-- °C"
         }
+    }
+
+    /**
+     * Обновление статуса батареи на основе данных BMS
+     */
+    private fun updateBatteryStatus(data: BMSData) {
+        // Проверяем, являются ли данные реальными (не дефолтными нулевыми значениями)
+        val isRealData = data.voltage > 0 || data.current != 0f || data.soc > 0
+        
+        val statusText = if (!isRealData) {
+            // Если данные дефолтные (все нули) - показываем Standby как в iOS
+            "Standby"
+        } else {
+            // Если данные реальные - применяем обычную логику статусов
+            when {
+                data.current > 0.1f -> "Charging"
+                data.current < -0.1f -> "Discharging"
+                data.soc <= 20 -> "Protecting"
+                data.soc >= 100 -> "Charging Limit"
+                else -> "Standby"
+            }
+        }
+        
+        // Устанавливаем текст статуса
+        batteryStatus.text = statusText
+        
+        // Текст всегда черный
+        batteryStatus.setTextColor(resources.getColor(R.color.bb_on_surface, null))
+        
+        // Устанавливаем фон с цветным бордюром в зависимости от статуса
+        val backgroundDrawable = when (statusText) {
+            "Charging" -> R.drawable.battery_status_charging
+            "Discharging" -> R.drawable.battery_status_discharging
+            "Protecting" -> R.drawable.battery_status_protecting
+            "Charging Limit" -> R.drawable.battery_status_charging_limit
+            else -> R.drawable.battery_status_standby
+        }
+        
+        batteryStatus.setBackgroundResource(backgroundDrawable)
+    }
+
+    /**
+     * Инициализация статуса батареи по умолчанию (как в iOS - показываем Standby когда нет подключения)
+     */
+    private fun initializeDefaultBatteryStatus() {
+        // Устанавливаем статус "Standby" по умолчанию (как в iOS)
+        batteryStatus.text = "Standby"
+        
+        // Текст всегда черный
+        batteryStatus.setTextColor(resources.getColor(R.color.bb_on_surface, null))
+        
+        // Устанавливаем фон для статуса Standby
+        batteryStatus.setBackgroundResource(R.drawable.battery_status_standby)
     }
 
     companion object {
