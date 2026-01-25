@@ -190,16 +190,20 @@ class SettingsFragmentNew : Fragment() {
     private fun observeViewModel() {
         // Selected ID observer
         mainViewModel?.selectedId?.observe(viewLifecycleOwner, Observer<Int> { id ->
-            val moduleId = if (id == -1) 1 else id
-
             // Only update display if loading data (not from pending change)
             if (isLoadingData || pendingModuleIdIndex == null) {
-                selectedIdText.text = "ID$moduleId"
-                currentModuleId = moduleId
+                if (id == -1) {
+                    // No data loaded yet - show placeholder like iOS
+                    selectedIdText.text = "--"
+                } else {
+                    selectedIdText.text = "ID$id"
+                    currentModuleId = id
+                }
             }
 
             // Disable CAN and RS485 for non-ID1 modules
-            val effectiveModuleId = pendingModuleIdIndex?.let { it + 1 } ?: moduleId
+            // Use pending value if exists, otherwise use actual value (default to 1 for availability check)
+            val effectiveModuleId = pendingModuleIdIndex?.let { it + 1 } ?: if (id == -1) 1 else id
             updateCANRS485Availability(effectiveModuleId)
         })
 

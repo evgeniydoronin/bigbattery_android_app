@@ -148,7 +148,7 @@
                         android:id="@+id/selectedId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ID1"
+                        android:text="--"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/bb_primary"
