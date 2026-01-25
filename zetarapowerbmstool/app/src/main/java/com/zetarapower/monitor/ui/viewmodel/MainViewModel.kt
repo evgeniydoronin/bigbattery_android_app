@@ -59,7 +59,7 @@ class MainViewModel : ViewModel() {
 
     private val _connectedDeviceName: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
-            it.value = PowerMonitorApp.inst.getString(R.string.title_home)
+            it.value = "Tap to Connect"
         }
     }
 
@@ -114,7 +114,7 @@ class MainViewModel : ViewModel() {
         notifyStatus.remove(device)
         uuidDeviceMap.remove(device)
         _updateStatus.value = "Device Not Connected"
-        _connectedDeviceName.value = PowerMonitorApp.inst.getString(R.string.title_home)
+        _connectedDeviceName.value = "Tap to Connect"
         _selectedId.value = -1
         _rs485Protocol.value = null
         _canData.value = null

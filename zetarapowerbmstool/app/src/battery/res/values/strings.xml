@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Battery Monitor BL</string>
+    <string name="app_name">BigBattery Husky 2</string>
     <string name="dark_mode" translatable="false">false</string>
 </resources>

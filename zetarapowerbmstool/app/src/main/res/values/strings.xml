@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zetara Power</string>
+    <string name="app_name">BigBattery Husky 2</string>
     <!-- configuration -->
     <string name="splash_screen" translatable="false">false</string>
     <string name="settings_module_ID" translatable="false">true</string>
@@ -33,5 +33,6 @@
 
     <string name="title_home">Home</string>
     <string name="title_detail">Detail</string>
+    <string name="title_shop">Shop</string>
     <string name="title_settings">Settings</string>
 </resources>

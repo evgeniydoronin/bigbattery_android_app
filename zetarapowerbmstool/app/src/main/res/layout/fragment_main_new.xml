@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Created by Evgenii Doronin
+    LinkedIn: https://www.linkedin.com/in/evgeniydoronin
+    
+    Новый главный экран с современным дизайном Big Battery
+    Включает табы Summary, Cell Voltage, Temperature
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_v2">
+
+    <!-- Header с логотипом Big Battery -->
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp"
+        android:paddingTop="40dp"
+        android:background="@color/bb_surface"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:src="@drawable/logo"
+            android:scaleType="centerInside"
+            android:contentDescription="Big Battery Logo" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/header_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Bluetooth Connection Panel -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bluetooth_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginBottom="0dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/bb_surface">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="2dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/bluetooth_new"
+                        android:padding="2dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/bluetooth_device_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tap to Connect"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/bb_on_surface" />
+
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_enter"
+                        app:tint="@color/bb_primary" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Battery Progress Circle (как в iOS) -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp">
+
+                <FrameLayout
+                    android:layout_width="360dp"
+                    android:layout_height="360dp"
+                    android:layout_marginBottom="-30dp"
+                    android:layout_gravity="center">
+
+                    <!-- Изображение husky2 в центре (как в iOS) - увеличенное -->
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/husky2"
+                        android:scaleType="centerCrop" />
+
+                    <!-- Кастомная дуга 240° (как в iOS) -->
+                    <com.zetarapower.monitor.ui.widgets.ArcProgressView
+                        android:id="@+id/circleView"
+                        android:layout_width="320dp"
+                        android:layout_height="320dp"
+                        android:layout_gravity="center" />
+
+
+                </FrameLayout>
+
+                <!-- Процент заряда внизу с метками 0 и 100 (как в iOS) -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="0dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <!-- Метка "0" слева -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/bb_on_surface"
+                        android:layout_marginEnd="50dp" />
+
+                    <!-- Процент с цветным фоном -->
+                    <TextView
+                        android:id="@+id/battery_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/bb_surface"
+                        android:background="@drawable/battery_percentage_bg"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        android:layout_gravity="center" />
+
+                    <!-- Метка "100" справа -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/bb_on_surface"
+                        android:layout_marginStart="50dp" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <!-- Статус батареи (отдельный блок) -->
+            <TextView
+                android:id="@+id/battery_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="Standby"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/bb_on_surface"
+                android:background="@drawable/battery_status_standby"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp" />
+
+            <!-- Parameters Cards -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
+                android:padding="8dp"
+                android:paddingBottom="12dp">
+
+                <!-- Voltage Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    android:layout_marginEnd="4dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/bb_surface">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="6dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/total_voltage_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-- V"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/bb_on_surface" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/voltage"
+                                app:tint="@color/bb_primary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="Total Voltage"
+                                android:textSize="10sp"
+                                android:textColor="@color/colorInfoTitle" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- Current Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    android:layout_marginHorizontal="4dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/bb_surface">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="6dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/total_current_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-- A"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/bb_on_surface" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/current"
+                                app:tint="@color/bb_primary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="Total Current"
+                                android:textSize="10sp"
+                                android:textColor="@color/colorInfoTitle" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- Temperature Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    android:layout_marginStart="4dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/bb_surface">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="6dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/total_temperature_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-- °F/-- °C"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/bb_on_surface" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/temperature"
+                                app:tint="@color/bb_primary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="Total Temp."
+                                android:textSize="10sp"
+                                android:textColor="@color/colorInfoTitle" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- Tabs -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/tab_summary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Summary"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/bb_green"
+                    android:background="@drawable/tab_selected_bg"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    android:id="@+id/tab_cell_voltage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cell Voltage"
+                    android:textSize="15sp"
+                    android:textColor="@color/bb_on_surface"
+                    android:background="@drawable/tab_unselected_bg"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="4dp" />
+
+                <TextView
+                    android:id="@+id/tab_temperature"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Temperature"
+                    android:textSize="15sp"
+                    android:textColor="@color/bb_on_surface"
+                    android:background="@drawable/tab_unselected_bg"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginStart="4dp" />
+
+            </LinearLayout>
+
+            <!-- Tab Content Container -->
+            <FrameLayout
+                android:id="@+id/tab_content_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Summary Tab Content (по умолчанию видимый) -->
+                <include
+                    android:id="@+id/summary_tab_content"
+                    layout="@layout/tab_summary_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!-- Cell Voltage Tab Content (скрыт) -->
+                <include
+                    android:id="@+id/cell_voltage_tab_content"
+                    layout="@layout/tab_cell_voltage_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <!-- Temperature Tab Content (скрыт) -->
+                <include
+                    android:id="@+id/temperature_tab_content"
+                    layout="@layout/tab_temperature_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

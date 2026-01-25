@@ -8,15 +8,15 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_detail"
-        android:menuCategory="secondary"
-        android:icon="@drawable/menu_detail_selector"
-        android:title="@string/title_detail" />
-
-    <item
         android:id="@+id/navigation_settings"
         android:menuCategory="secondary"
         android:icon="@drawable/menu_settings_selector"
         android:title="@string/title_settings" />
+
+    <item
+        android:id="@+id/navigation_shop"
+        android:menuCategory="secondary"
+        android:icon="@drawable/menu_shop_selector"
+        android:title="@string/title_shop" />
 
 </menu>

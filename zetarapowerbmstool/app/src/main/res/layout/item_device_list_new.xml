@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Created by Evgenii Doronin
+    LinkedIn: https://www.linkedin.com/in/evgeniydoronin
+    
+    Современная карточка устройства Bluetooth с Big Battery дизайном
+-->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/bb_surface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Device Icon -->
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_bluetooth_24"
+            android:background="@drawable/circle_bg"
+            android:padding="8dp"
+            app:tint="@color/bb_primary" />
+
+        <!-- Device Info -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/device_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Device Name"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/bb_on_surface" />
+
+            <TextView
+                android:id="@+id/device_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="00:00:00:00:00:00"
+                android:textSize="12sp"
+                android:textColor="@color/colorInfoTitle"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+
+        <!-- Signal Strength -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="16dp">
+
+            <TextView
+                android:id="@+id/txt_rssi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-50"
+                android:textSize="12sp"
+                android:textColor="@color/bb_on_surface" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_rssi"
+                app:tint="@color/bb_primary"
+                android:layout_marginStart="4dp" />
+
+        </LinearLayout>
+
+        <!-- Connect Button -->
+        <TextView
+            android:id="@+id/btn_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:minWidth="80dp"
+            android:background="@color/bb_primary"
+            android:text="@string/connect"
+            android:textColor="@color/bb_surface"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingHorizontal="16dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
