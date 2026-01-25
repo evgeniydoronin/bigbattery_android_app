@@ -41,6 +41,7 @@
     <string name="connection_disconnected">Disconnected</string>
     <string name="save_button">SAVE</string>
     <string name="settings_info_banner">The battery will restart automatically after saving settings. Please wait for reconnection.</string>
+    <string name="settings_note">Note: The battery connected directly to the inverter or meter via the communication cable must be set to ID1. All other batteries should be assigned unique IDs (ID2, ID3, etc.).</string>
     <string name="status_label_selected">Selected: %1$s - Click \'Save\' below to apply changes</string>
     <string name="settings_module_id_disabled">CAN and RS485 settings are only available when Module ID is set to ID1</string>
 

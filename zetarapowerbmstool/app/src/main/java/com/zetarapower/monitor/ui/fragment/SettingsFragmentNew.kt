@@ -71,7 +71,7 @@ class SettingsFragmentNew : Fragment() {
 
     // Save Button and Information Banner
     private lateinit var saveButton: Button
-    private lateinit var informationBanner: LinearLayout
+    private lateinit var informationBanner: View
 
     // Pending changes
     private var pendingModuleIdIndex: Int? = null
@@ -158,9 +158,9 @@ class SettingsFragmentNew : Fragment() {
      * Настройка обработчиков кликов
      */
     private fun setupClickListeners() {
-        // Module ID click listener
+        // Module ID click listener - clickable on entire card
         if (getString(R.string.settings_module_ID) == "true") {
-            selectedIdText.setOnClickListener {
+            idsContainer.setOnClickListener {
                 if (mIdsPopWindow == null) {
                     initIdListPop()
                 }
@@ -170,9 +170,9 @@ class SettingsFragmentNew : Fragment() {
             idsContainer.visibility = View.GONE
         }
 
-        // CAN and RS485 click listeners
+        // CAN and RS485 click listeners - clickable on entire card
         if (getString(R.string.settings_module_CAN) == "true") {
-            selectedCANText.setOnClickListener {
+            canContainer.setOnClickListener {
                 // Check if data is loaded
                 if (mainViewModel?.canData?.value == null) {
                     Toast.makeText(requireContext(), R.string.waiting_for_data, Toast.LENGTH_SHORT).show()
@@ -184,7 +184,7 @@ class SettingsFragmentNew : Fragment() {
                 mCANPopWindow?.show()
             }
 
-            selectedRS485Text.setOnClickListener {
+            rs485Container.setOnClickListener {
                 // Check if data is loaded
                 if (mainViewModel?.rs485Protocol?.value == null) {
                     Toast.makeText(requireContext(), R.string.waiting_for_data, Toast.LENGTH_SHORT).show()
