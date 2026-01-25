@@ -53,4 +53,23 @@
     <color name="tab_selected">#165EA0</color>
     <color name="tab_unselected">#9E9E9E</color>
 
+    <!-- Connection Status Colors -->
+    <color name="connection_connected_bg">#E8F5E9</color>
+    <color name="connection_connected_text">#2E7D32</color>
+    <color name="connection_disconnected_bg">#FFEBEE</color>
+    <color name="connection_disconnected_text">#C62828</color>
+
+    <!-- Status Warning Colors -->
+    <color name="status_warning">#FF9800</color>
+    <color name="status_warning_text">#E65100</color>
+
+    <!-- Info Banner Colors -->
+    <color name="info_banner_bg">#FFF3E0</color>
+    <color name="info_banner_border">#FFB74D</color>
+    <color name="info_banner_text">#E65100</color>
+
+    <!-- Save Button Colors -->
+    <color name="save_button_disabled">#BDBDBD</color>
+    <color name="save_button_text_disabled">#757575</color>
+
 </resources>

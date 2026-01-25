@@ -35,4 +35,23 @@
     <string name="title_detail">Detail</string>
     <string name="title_shop">Shop</string>
     <string name="title_settings">Settings</string>
+
+    <!-- Settings Screen -->
+    <string name="connection_connected">Connected</string>
+    <string name="connection_disconnected">Disconnected</string>
+    <string name="save_button">SAVE</string>
+    <string name="settings_info_banner">The battery will restart automatically after saving settings. Please wait for reconnection.</string>
+    <string name="status_label_selected">Selected: %1$s - Click \'Save\' below to apply changes</string>
+    <string name="settings_module_id_disabled">CAN and RS485 settings are only available when Module ID is set to ID1</string>
+
+    <!-- Save Confirmation Dialog -->
+    <string name="save_dialog_title">Battery Will Restart</string>
+    <string name="save_dialog_message">Saving settings will cause the battery to restart. The Bluetooth connection will be temporarily lost.\n\nAre you sure you want to save these changes?</string>
+    <string name="save_dialog_confirm">Save</string>
+    <string name="save_dialog_cancel">Cancel</string>
+
+    <!-- Saving Progress -->
+    <string name="saving_settings">Saving settings…</string>
+    <string name="battery_restarting">Battery is restarting. Please wait for reconnection.</string>
+    <string name="settings_saved">Settings saved successfully</string>
 </resources>
