@@ -91,6 +91,16 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/bb_on_surface"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Note Label -->
+            <TextView
+                android:id="@+id/noteLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_note"
+                android:textSize="12sp"
+                android:textColor="@color/colorInfoTitle"
                 android:layout_marginBottom="16dp" />
 
             <!-- Module ID Card -->
@@ -100,8 +110,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/bb_surface">
 
                 <LinearLayout
@@ -181,8 +194,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/bb_surface">
 
                 <LinearLayout
@@ -262,8 +278,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_marginBottom="32dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/bb_surface">
 
                 <LinearLayout
@@ -336,48 +355,6 @@
                 android:textColor="@color/status_warning_text"
                 android:visibility="gone" />
 
-            <!-- Information Banner -->
-            <LinearLayout
-                android:id="@+id/informationBanner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/info_banner_bg"
-                android:padding="12dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="center_vertical"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@android:drawable/ic_dialog_info"
-                    app:tint="@color/info_banner_text" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/settings_info_banner"
-                    android:textSize="12sp"
-                    android:textColor="@color/info_banner_text" />
-
-            </LinearLayout>
-
-            <!-- Save Button -->
-            <Button
-                android:id="@+id/saveButton"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/save_button"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:background="@drawable/save_button_bg"
-                android:enabled="false" />
-
             <!-- App Information Section -->
             <TextView
                 android:layout_width="wrap_content"
@@ -395,9 +372,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="24dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/bb_surface">
 
                 <LinearLayout
@@ -453,6 +430,31 @@
 
             </androidx.cardview.widget.CardView>
 
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/save_button"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/save_button_bg"
+                android:enabled="false" />
+
+            <!-- Information Banner -->
+            <TextView
+                android:id="@+id/informationBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/info_banner_white_bg"
+                android:padding="12dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/settings_info_banner"
+                android:textSize="12sp"
+                android:textColor="@color/bb_on_surface" />
 
         </LinearLayout>
 
