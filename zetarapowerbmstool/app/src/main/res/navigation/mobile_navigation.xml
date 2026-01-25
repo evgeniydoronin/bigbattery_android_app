@@ -7,19 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.zetarapower.monitor.ui.fragment.MainFragment"
+        android:name="com.zetarapower.monitor.ui.fragment.MainFragmentNew"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_main" />
-
-    <fragment
-        android:id="@+id/navigation_detail"
-        android:name="com.zetarapower.monitor.ui.fragment.InfoFragment"
-        android:label="@string/title_detail"
-        tools:layout="@layout/fragment_info" />
+        tools:layout="@layout/fragment_main_new" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.zetarapower.monitor.ui.fragment.SettingsFragment"
+        android:name="com.zetarapower.monitor.ui.fragment.SettingsFragmentNew"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings_new" />
 </navigation>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Серый фон дуги (240°) -->
+    <item>
+        <shape android:shape="ring"
+            android:innerRadius="120dp"
+            android:thickness="20dp"
+            android:useLevel="false">
+            <solid android:color="@color/battery_background" />
+        </shape>
+    </item>
+    
+    <!-- Зеленая дуга прогресса (будет анимироваться) -->
+    <item>
+        <shape android:shape="ring"
+            android:innerRadius="120dp"
+            android:thickness="20dp"
+            android:useLevel="true">
+            <solid android:color="@color/bb_primary" />
+        </shape>
+    </item>
+    
+</layer-list>

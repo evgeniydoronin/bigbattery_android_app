@@ -7,7 +7,9 @@ import android.bluetooth.BluetoothGatt
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -15,6 +17,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -67,13 +70,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         FL.i("MainActivity", "onCreate")
         setContentView(R.layout.activity_main)
-        // Временно отключено из-за проблем с доступом к JitPack
-        // StatusBarUtil.setTransparent(this)
-        // if (getString(R.string.dark_mode) == "true") {
-        //     StatusBarUtil.setDarkMode(this)
-        // } else {
-        //     StatusBarUtil.setLightMode(this)
-        // }
+        
+        // Настройка статус-бара нативными Android API
+        setupStatusBar()
+        
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.itemIconTintList = null
         val navController = findNavController(R.id.nav_host_fragment)
@@ -81,20 +81,13 @@ class MainActivity : AppCompatActivity() {
         previousMenuItem = navView.menu.findItem(R.id.navigation_home)
         navView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.navigation_settings -> {
-                    if (BleManager.getInstance().allConnectedDevice != null
-                        && BleManager.getInstance().allConnectedDevice.isNotEmpty()
-                    ) {
-                        NavigationUI.onNavDestinationSelected(menuItem, navController)
-                    } else {
-                        showAlertDialog("Kindly connect the device first to access the 'Settings' tab") {
-                            previousMenuItem?.isChecked = true
-                        }
-                    }
-                    return@setOnNavigationItemSelectedListener true
+                R.id.navigation_shop -> {
+                    // Открываем браузер с сайтом Big Battery вместо навигации к фрагменту
+                    openBigBatteryWebsite()
+                    false // Не выполняем навигацию
                 }
                 else -> {
-                    // For other items, let NavigationUI handle the navigation
+                    // Обычная навигация для других пунктов меню
                     previousMenuItem = menuItem
                     NavigationUI.onNavDestinationSelected(menuItem, navController)
                 }
@@ -436,6 +429,50 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("Cancel") { _, _ ->
 
             }.show()
+    }
+
+    /**
+     * Открывает сайт Big Battery в браузере
+     * Соответствует поведению iOS версии приложения
+     */
+    private fun openBigBatteryWebsite() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bigbattery.com"))
+            startActivity(intent)
+        } catch (e: Exception) {
+            // Обработка ошибки открытия браузера
+            Toast.makeText(this, "Unable to open website", Toast.LENGTH_SHORT).show()
+            FL.e(TAG, "Error opening Big Battery website: $e")
+        }
+    }
+
+    /**
+     * Настройка статус-бара нативными Android API
+     * Заменяет функциональность StatusBarUtil
+     */
+    private fun setupStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Делаем статус-бар прозрачным
+            window.decorView.systemUiVisibility = 
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or 
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            window.statusBarColor = Color.TRANSPARENT
+            
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // Проверяем настройку темного режима
+                if (getString(R.string.dark_mode) == "true") {
+                    // Темный режим - светлые иконки статус-бара
+                    window.decorView.systemUiVisibility = 
+                        window.decorView.systemUiVisibility and 
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+                } else {
+                    // Светлый режим - темные иконки статус-бара
+                    window.decorView.systemUiVisibility = 
+                        window.decorView.systemUiVisibility or 
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                }
+            }
+        }
     }
 
 
