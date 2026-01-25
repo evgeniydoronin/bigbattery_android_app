@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.clj.fastble.BleManager
 import com.zetarapower.monitor.MainActivity
 import com.zetarapower.monitor.R
@@ -137,6 +138,12 @@ class SettingsFragmentNew : Fragment() {
 
         // Установка версии приложения
         versionNameText.text = getAppVersionName(requireActivity())
+
+        // Hidden access to Diagnostics screen (long press on version)
+        versionNameText.setOnLongClickListener {
+            findNavController().navigate(R.id.action_settings_to_diagnostics)
+            true
+        }
 
         // Setup Save Button click listener
         saveButton.setOnClickListener {

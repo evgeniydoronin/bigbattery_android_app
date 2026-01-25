@@ -55,4 +55,38 @@
     <string name="waiting_for_data">Waiting for protocol data to load…</string>
     <string name="battery_restarting">Battery is restarting. Please wait for reconnection.</string>
     <string name="settings_saved">Settings saved successfully</string>
+
+    <!-- Diagnostics Screen -->
+    <string name="diagnostics_title">Diagnostics</string>
+    <string name="diagnostics_send_logs">Send Logs to Developer</string>
+    <string name="diagnostics_email_subject">BigBattery Diagnostic Data</string>
+    <string name="diagnostics_email_body">Diagnostic data from BigBattery Android app</string>
+    <string name="diagnostics_email_error">Unable to send email. Check your device mail settings.</string>
+    <string name="diagnostics_no_email_app">No email app found</string>
+
+    <!-- Diagnostics Sections -->
+    <string name="diagnostics_section_device">Device Information</string>
+    <string name="diagnostics_section_battery">Battery Information</string>
+    <string name="diagnostics_section_cells">Cell Voltages</string>
+    <string name="diagnostics_section_temps">Temperatures</string>
+    <string name="diagnostics_section_events">Event Log</string>
+
+    <!-- Diagnostics Parameters -->
+    <string name="diagnostics_device_name">Device Name</string>
+    <string name="diagnostics_voltage">Voltage</string>
+    <string name="diagnostics_current">Current</string>
+    <string name="diagnostics_soc">State of Charge (SOC)</string>
+    <string name="diagnostics_soh">State of Health (SOH)</string>
+    <string name="diagnostics_status">Status</string>
+    <string name="diagnostics_cell_count">Cell Count</string>
+    <string name="diagnostics_cell">Cell %1$d</string>
+    <string name="diagnostics_temp_pcb">PCB</string>
+    <string name="diagnostics_temp_env">Environment</string>
+    <string name="diagnostics_temp_sensor">Sensor %1$d</string>
+
+    <!-- Diagnostics Event Types -->
+    <string name="diagnostics_event_connection">Connection</string>
+    <string name="diagnostics_event_disconnection">Disconnection</string>
+    <string name="diagnostics_event_data_update">Data Update</string>
+    <string name="diagnostics_event_error">Error</string>
 </resources>

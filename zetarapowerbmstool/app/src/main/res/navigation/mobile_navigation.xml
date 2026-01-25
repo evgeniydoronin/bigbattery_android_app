@@ -15,5 +15,15 @@
         android:id="@+id/navigation_settings"
         android:name="com.zetarapower.monitor.ui.fragment.SettingsFragmentNew"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings_new" />
+        tools:layout="@layout/fragment_settings_new">
+        <action
+            android:id="@+id/action_settings_to_diagnostics"
+            app:destination="@id/navigation_diagnostics" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_diagnostics"
+        android:name="com.zetarapower.monitor.diagnostics.DiagnosticsFragment"
+        android:label="@string/diagnostics_title"
+        tools:layout="@layout/fragment_diagnostics" />
 </navigation>

@@ -72,4 +72,13 @@
     <color name="save_button_disabled">#BDBDBD</color>
     <color name="save_button_text_disabled">#757575</color>
 
+    <!-- Diagnostics Event Colors -->
+    <color name="event_connection">#4CAF50</color>
+    <color name="event_disconnection">#FF9800</color>
+    <color name="event_data_update">#2196F3</color>
+    <color name="event_error">#F44336</color>
+
+    <!-- Secondary text color -->
+    <color name="bb_on_surface_secondary">#6C757D</color>
+
 </resources>
