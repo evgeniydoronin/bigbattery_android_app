@@ -38,7 +38,7 @@ fun Fragment.dp2px(dp: Int): Int {
 }
 
 /**
- *
+ * Get app version name (for Fragment)
  */
 fun Fragment.getAppVersionName(context: Context?): String?{
     if (context == null){
@@ -51,6 +51,35 @@ fun Fragment.getAppVersionName(context: Context?): String?{
     } catch (e: PackageManager.NameNotFoundException) {
         e.printStackTrace()
         null
+    }
+}
+
+/**
+ * Get app version name (for Context)
+ */
+fun getAppVersionName(context: Context): String {
+    return try {
+        val info: PackageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+        info.versionName ?: "Unknown"
+    } catch (e: PackageManager.NameNotFoundException) {
+        "Unknown"
+    }
+}
+
+/**
+ * Get app version code (for Context)
+ */
+fun getAppVersionCode(context: Context): Long {
+    return try {
+        val info: PackageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            info.longVersionCode
+        } else {
+            @Suppress("DEPRECATION")
+            info.versionCode.toLong()
+        }
+    } catch (e: PackageManager.NameNotFoundException) {
+        0L
     }
 }
 
