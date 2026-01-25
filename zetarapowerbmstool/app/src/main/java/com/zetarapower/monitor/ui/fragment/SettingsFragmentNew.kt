@@ -78,10 +78,10 @@ class SettingsFragmentNew : Fragment() {
     private var pendingRS485Index: Int? = null
     private var isLoadingData = false
 
-    // Current values (for comparison)
-    private var currentModuleId: Int = 1
-    private var currentCANIndex: Int = 0
-    private var currentRS485Index: Int = 0
+    // Current values from battery (null = not loaded yet)
+    private var currentModuleId: Int? = null
+    private var currentCANIndex: Int? = null
+    private var currentRS485Index: Int? = null
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -300,31 +300,24 @@ class SettingsFragmentNew : Fragment() {
             isModal = true
             promptPosition = POSITION_PROMPT_BELOW
             setOnItemClickListener { _, _, position, _ ->
-                // Store pending change instead of immediate save
+                // Store pending change (like iOS - always track selection)
                 val newModuleId = position + 1
-                if (newModuleId != currentModuleId) {
-                    pendingModuleIdIndex = position
-                    selectedIdText.text = "ID$newModuleId"
-                    showStatusLabel(moduleIdStatusLabel, "ID$newModuleId")
+                pendingModuleIdIndex = position
+                selectedIdText.text = "ID$newModuleId"
+                showStatusLabel(moduleIdStatusLabel, "ID$newModuleId")
 
-                    // Update CAN/RS485 availability based on new pending value
-                    updateCANRS485Availability(newModuleId)
+                // Update CAN/RS485 availability based on new pending value
+                updateCANRS485Availability(newModuleId)
 
-                    // If changing from ID1 to another ID, clear CAN/RS485 pending changes
-                    if (newModuleId != 1) {
-                        pendingCANIndex = null
-                        pendingRS485Index = null
-                        hideStatusLabel(canStatusLabel)
-                        hideStatusLabel(rs485StatusLabel)
-                    }
-
-                    activateSaveButton()
-                } else {
-                    // User selected current value - remove pending change
-                    pendingModuleIdIndex = null
-                    hideStatusLabel(moduleIdStatusLabel)
-                    checkAndDeactivateSaveButton()
+                // If changing to non-ID1, clear CAN/RS485 pending changes
+                if (newModuleId != 1) {
+                    pendingCANIndex = null
+                    pendingRS485Index = null
+                    hideStatusLabel(canStatusLabel)
+                    hideStatusLabel(rs485StatusLabel)
                 }
+
+                activateSaveButton()
                 mIdsPopWindow?.dismiss()
             }
         }
@@ -352,19 +345,12 @@ class SettingsFragmentNew : Fragment() {
             isModal = true
             promptPosition = POSITION_PROMPT_BELOW
             setOnItemClickListener { _, _, position, _ ->
-                // Store pending change instead of immediate save
-                if (position != currentCANIndex) {
-                    pendingCANIndex = position
-                    val protocolName = mainViewModel?.canData?.value?.protocolArray?.getOrNull(position) ?: "CAN $position"
-                    selectedCANText.text = protocolName
-                    showStatusLabel(canStatusLabel, protocolName)
-                    activateSaveButton()
-                } else {
-                    // User selected current value - remove pending change
-                    pendingCANIndex = null
-                    hideStatusLabel(canStatusLabel)
-                    checkAndDeactivateSaveButton()
-                }
+                // Store pending change (like iOS - always track selection)
+                pendingCANIndex = position
+                val protocolName = mainViewModel?.canData?.value?.protocolArray?.getOrNull(position) ?: "CAN $position"
+                selectedCANText.text = protocolName
+                showStatusLabel(canStatusLabel, protocolName)
+                activateSaveButton()
                 mCANPopWindow?.dismiss()
             }
         }
@@ -392,19 +378,12 @@ class SettingsFragmentNew : Fragment() {
             isModal = true
             promptPosition = POSITION_PROMPT_BELOW
             setOnItemClickListener { _, _, position, _ ->
-                // Store pending change instead of immediate save
-                if (position != currentRS485Index) {
-                    pendingRS485Index = position
-                    val protocolName = mainViewModel?.rs485Protocol?.value?.protocolArray?.getOrNull(position) ?: "RS485 $position"
-                    selectedRS485Text.text = protocolName
-                    showStatusLabel(rs485StatusLabel, protocolName)
-                    activateSaveButton()
-                } else {
-                    // User selected current value - remove pending change
-                    pendingRS485Index = null
-                    hideStatusLabel(rs485StatusLabel)
-                    checkAndDeactivateSaveButton()
-                }
+                // Store pending change (like iOS - always track selection)
+                pendingRS485Index = position
+                val protocolName = mainViewModel?.rs485Protocol?.value?.protocolArray?.getOrNull(position) ?: "RS485 $position"
+                selectedRS485Text.text = protocolName
+                showStatusLabel(rs485StatusLabel, protocolName)
+                activateSaveButton()
                 mRS485PopWindow?.dismiss()
             }
         }
