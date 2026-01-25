@@ -52,6 +52,7 @@
 
     <!-- Saving Progress -->
     <string name="saving_settings">Saving settings…</string>
+    <string name="waiting_for_data">Waiting for protocol data to load…</string>
     <string name="battery_restarting">Battery is restarting. Please wait for reconnection.</string>
     <string name="settings_saved">Settings saved successfully</string>
 </resources>

@@ -166,6 +166,11 @@ class SettingsFragmentNew : Fragment() {
         // CAN and RS485 click listeners
         if (getString(R.string.settings_module_CAN) == "true") {
             selectedCANText.setOnClickListener {
+                // Check if data is loaded
+                if (mainViewModel?.canData?.value == null) {
+                    Toast.makeText(requireContext(), R.string.waiting_for_data, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
                 if (mCANPopWindow == null) {
                     initCANListPop()
                 }
@@ -173,6 +178,11 @@ class SettingsFragmentNew : Fragment() {
             }
 
             selectedRS485Text.setOnClickListener {
+                // Check if data is loaded
+                if (mainViewModel?.rs485Protocol?.value == null) {
+                    Toast.makeText(requireContext(), R.string.waiting_for_data, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
                 if (mRS485PopWindow == null) {
                     initRS485ListPop()
                 }
