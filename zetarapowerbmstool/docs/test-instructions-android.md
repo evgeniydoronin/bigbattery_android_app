@@ -75,19 +75,11 @@ Fill in after each test. Mark PASS or FAIL.
 
 ### If FAILED
 
-- Screenshot the Settings screen
-- Note which values show "--" or are missing
-- Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Connect + Settings — [what failed]"
+1. Screenshot Settings screen
+2. Diagnostics → **Send Logs**
+3. Notes — short: `connected / not connected` and which fields show "--"
 
-### Log lines to look for
-```
-CONNECTION event — successful connection
-protocolInfo section in JSON:
-  "moduleId" — should have a value
-  "canProtocol" — should have a value
-  "rs485Protocol" — should have a value
-```
+> Logs will show connection events and protocol data, but they won't tell us whether the screen itself loaded or got stuck visually.
 
 ---
 
@@ -118,10 +110,11 @@ Check each item:
 
 ### If FAILED
 
-- Screenshot the Settings screen
-- Note which element is missing or wrong
-- Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Settings UI — [what is missing/wrong]"
+1. Screenshot Settings screen
+2. Diagnostics → **Send Logs**
+3. Notes — just list missing elements, e.g.: `no Save button, no Note Label`
+
+> Logs don't capture UI layout — only you can see if an element is missing or in the wrong place.
 
 ---
 
@@ -157,19 +150,12 @@ If any value shows "--", it may be a timing/race condition (same bug as iOS buil
 
 ### If FAILED
 
-- Screenshot showing the "--" values
-- **Do NOT navigate away** — stay on Settings screen
-- Wait 10 more seconds, check if values appear
-- Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Protocol loading — [which field shows '--', how long you waited]"
+1. Screenshot Settings screen (don't leave the screen!)
+2. Wait 10 more seconds — did values appear? Note: `yes after Xs` or `still --`
+3. Diagnostics → **Send Logs**
+4. Notes — which field: `Module ID --` / `CAN --` / `RS485 --`
 
-### Log lines to look for
-```
-protocolInfo section in diagnostics JSON:
-  "moduleId" — should have a value
-  "canProtocol" — should have a value
-  "rs485Protocol" — should have a value
-```
+> Logs show protocol data at the moment of export, but they won't tell us if "--" appeared briefly and then loaded, or stayed forever. That's why we need to know how long you waited.
 
 ---
 
@@ -204,11 +190,11 @@ protocolInfo section in diagnostics JSON:
 
 ### If FAILED
 
-- Screenshot before and after Save
-- Note if the confirmation dialog appeared
-- Note if battery restarted or not
-- Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Protocol save — [what happened]"
+1. Screenshot Settings before Save and after reconnection
+2. Diagnostics → **Send Logs**
+3. Notes — short: `dialog: yes/no`, `battery restart: yes/no`, `new value saved: yes/no`
+
+> Logs record protocol values and connection events, but they can't tell us if the confirmation dialog appeared on screen or if the Save button changed state. Write that down.
 
 ### After this test
 **Restore the original protocol:** repeat steps 3-13 to set CAN back to the original value you wrote down.
@@ -242,23 +228,15 @@ protocolInfo section in diagnostics JSON:
 
 If after 10 seconds the app does NOT reconnect:
 1. Go back, connect manually (Bluetooth card → scan → tap module)
-2. Go to Settings screen
-3. Check values
-4. Note: "Auto-reconnect did not work, manual reconnect required"
+2. Go to Settings screen, check values
 
 ### If FAILED
 
-- Note how long you waited before giving up
-- Note if the app crashed or froze
-- Screenshot Settings screen after reconnection (especially "--" values)
-- Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Mid-session reconnect — [auto/manual], waited [X] seconds, Settings values: [what you see]"
+1. Screenshot Settings screen after reconnection
+2. Diagnostics → **Send Logs**
+3. Notes — short: `auto / manual`, `waited Xs`, `crash / freeze / ok`, `Settings: ok / -- on [field]`
 
-### Log lines to look for
-```
-DISCONNECTION event — when signal was lost
-CONNECTION event — when reconnected
-```
+> Logs show CONNECTION and DISCONNECTION events with timestamps, but they have no idea whether the reconnect happened by itself or you tapped the button manually. Only you know that.
 
 ---
 
@@ -290,10 +268,11 @@ CONNECTION event — when reconnected
 
 ### If FAILED
 
-- Note any error messages on screen
-- Screenshot Settings screen (especially "--" values)
-- Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Cross-session — [auto/manual/failed], Settings values: [what you see]"
+1. Screenshot Settings screen
+2. Diagnostics → **Send Logs**
+3. Notes — short: `auto / manual / failed`, `Settings: ok / -- on [field]`
+
+> Same as Test 5 — logs can't distinguish auto-reconnect from manual. Also, if the app shows an error message on screen, write it down — that text doesn't end up in the logs.
 
 ### Known issue (from iOS)
 In iOS builds 43-44, the saved device UUID was lost on app restart, making auto-reconnect impossible. Check if Android has the same issue.
@@ -323,10 +302,11 @@ In iOS builds 43-44, the saved device UUID was lost on app restart, making auto-
 
 ### If FAILED
 
-- Screenshot any time values show "--" or differ
-- Note which round trip failed (1st, 2nd, or 3rd)
-- Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Settings navigation — round trip [#], [which value changed/disappeared]"
+1. Screenshot Settings screen the moment you see "--"
+2. Diagnostics → **Send Logs**
+3. Notes — short: `round trip #X`, `[field] showed --` or `[field] changed value`
+
+> Logs capture protocol data once (at export time), but they won't show that values were fine on round trip 1 and broke on round trip 3. That's what your notes are for.
 
 ### Known issue (from iOS)
 In iOS builds 45-47, navigating away could cancel BLE subscriptions, causing Module ID to show "--" on return. This is the race condition bug.
@@ -358,10 +338,11 @@ In iOS builds 45-47, navigating away could cancel BLE subscriptions, causing Mod
 
 ### If FAILED
 
-- Screenshot the Diagnostics screen
-- Screenshot any error when trying to send
-- Note: "Diagnostics export — [what went wrong]"
-- If email won't open: check that an email app is set up on the phone
+1. Screenshot the Diagnostics screen
+2. Screenshot the error (if any)
+3. Notes — short: `no events / email won't open / send error`
+
+> If email won't open at all — most likely no email app is configured on the phone. That's a setup issue, not a bug.
 
 ---
 
@@ -441,7 +422,12 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 - Карточка RS485 Protocol показывает название протокола
 - Нигде нет "--" или пустых значений
 
-**Если FAILED:** скриншот Settings, отметить что показывает "--", Diagnostics → Send Logs.
+**Если не прошёл:**
+1. Скриншот Settings
+2. Diagnostics → **Send Logs**
+3. Заметка: `connected / not connected`, какие поля показывают "--"
+
+> Логи покажут события подключения и данные протоколов, но не покажут, загрузился ли сам экран визуально или завис. Это видите только вы.
 
 ---
 
@@ -465,7 +451,12 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 
 **Важное правило:** Если Module ID = 1, карточки CAN и RS485 должны быть **активны** (нажимаются). Если Module ID = 2-16, CAN и RS485 должны быть **заблокированы** (не нажимаются).
 
-**Если FAILED:** скриншот Settings, отметить что отсутствует/неправильно, Diagnostics → Send Logs.
+**Если не прошёл:**
+1. Скриншот Settings
+2. Diagnostics → **Send Logs**
+3. Заметка: просто перечислить чего нет, например: `нет Save кнопки, нет Note Label`
+
+> Логи не фиксируют внешний вид экрана — только вы видите, есть элемент на месте или нет.
 
 ---
 
@@ -488,7 +479,13 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 
 **Известная проблема (из iOS):** Запросы отправляются последовательно с задержками 600ms. Если значение "--" — возможно race condition (аналог бага iOS builds 45-47).
 
-**Если FAILED:** скриншот с "--" значениями, НЕ уходить с экрана, подождать ещё 10 секунд, Diagnostics → Send Logs.
+**Если не прошёл:**
+1. Скриншот Settings (не уходить с экрана!)
+2. Подождать ещё 10 секунд — появились значения? Записать: `да, через Xс` или `так и осталось --`
+3. Diagnostics → **Send Logs**
+4. Заметка: какое поле: `Module ID --` / `CAN --` / `RS485 --`
+
+> Логи покажут данные протоколов на момент экспорта, но не расскажут, мелькнуло "--" на секунду и загрузилось, или висело навсегда. Поэтому важно записать, сколько ждали.
 
 ---
 
@@ -510,7 +507,12 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 12. Перейти на экран Settings
 13. Проверить: CAN Protocol показывает **новое** значение
 
-**Если FAILED:** скриншоты до и после Save, отметить появился ли диалог, перезагрузилась ли батарея, Diagnostics → Send Logs.
+**Если не прошёл:**
+1. Скриншот Settings до Save и после переподключения
+2. Diagnostics → **Send Logs**
+3. Заметка: `диалог: да/нет`, `батарея перезагрузилась: да/нет`, `новое значение сохранилось: да/нет`
+
+> Логи запишут значения протоколов и события подключения, но не расскажут, появился ли диалог подтверждения и поменялось ли состояние кнопки Save. Это можете заметить только вы.
 
 **После теста:** вернуть оригинальный протокол — повторить шаги 3-13, установив CAN обратно.
 
@@ -534,9 +536,14 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 - Шаг 7: автоматическое переподключение — баннер возвращается на "Connected"
 - Шаг 8: все три значения совпадают с записанными в шаге 2, нет "--"
 
-**Если авто-реконнект не сработал:** подключиться вручную, проверить значения, отметить "ручное переподключение".
+**Если авто-реконнект не сработал:** подключиться вручную, проверить значения.
 
-**Если FAILED:** отметить время ожидания, был ли краш/фриз, скриншот Settings, Diagnostics → Send Logs.
+**Если не прошёл:**
+1. Скриншот Settings после переподключения
+2. Diagnostics → **Send Logs**
+3. Заметка: `авто / вручную`, `ждал Xс`, `краш / фриз / ок`, `Settings: ок / -- на [поле]`
+
+> Логи покажут события CONNECTION и DISCONNECTION с таймстемпами, но понятия не имеют, переподключение произошло само или вы нажали кнопку. Это знаете только вы.
 
 ---
 
@@ -565,7 +572,12 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 
 **Известная проблема (из iOS):** В iOS builds 43-44 UUID устройства терялся при перезапуске — авто-реконнект не работал. Проверить есть ли та же проблема на Android.
 
-**Если FAILED:** отметить ошибки на экране, скриншот Settings, Diagnostics → Send Logs.
+**Если не прошёл:**
+1. Скриншот Settings
+2. Diagnostics → **Send Logs**
+3. Заметка: `авто / вручную / не подключился`, `Settings: ок / -- на [поле]`
+
+> То же, что в тесте 5 — логи не отличат авто-реконнект от ручного. Если на экране появилось сообщение об ошибке — запишите текст, он в логи не попадает.
 
 ---
 
@@ -589,7 +601,12 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 
 **Известная проблема (из iOS):** В iOS builds 45-47 переход с экрана мог отменить BLE-подписки, из-за чего Module ID показывал "--" при возврате. Это баг race condition.
 
-**Если FAILED:** скриншот при появлении "--", отметить какой цикл провалился (1-й, 2-й, 3-й), Diagnostics → Send Logs.
+**Если не прошёл:**
+1. Скриншот Settings в момент появления "--"
+2. Diagnostics → **Send Logs**
+3. Заметка: `цикл #X`, `[поле] показало --` или `[поле] изменило значение`
+
+> Логи фиксируют данные один раз (в момент экспорта), но не расскажут, что на 1-м цикле всё было нормально, а на 3-м сломалось. Для этого и нужна ваша заметка.
 
 ---
 
@@ -612,7 +629,12 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 - Email открывается с вложением
 - Email отправляется успешно
 
-**Если FAILED:** скриншот Diagnostics, скриншот ошибки отправки, отметить что пошло не так. Если email не открывается — проверить, что на телефоне настроено почтовое приложение.
+**Если не прошёл:**
+1. Скриншот Diagnostics
+2. Скриншот ошибки (если есть)
+3. Заметка: `нет событий / email не открывается / ошибка отправки`
+
+> Если email вообще не открывается — скорее всего на телефоне не настроена почта. Это не баг приложения, а вопрос настройки телефона.
 
 ---
 
