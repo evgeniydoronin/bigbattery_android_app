@@ -1,7 +1,8 @@
-# Android App Test Instructions
+# Android App Test Instructions — Settings Screen
 
 **App:** Big Battery BMS Tool (Android)
 **Package:** `com.zetarapower.monitor.bl`
+**Scope:** Settings screen, BLE connection, Diagnostics export
 **Date:** January 2025
 
 ---
@@ -17,8 +18,7 @@
 - Open app → Settings → scroll to bottom → note the **Version** number
 - Write it in the results table
 
-### Key screens
-- **Home** — main screen with battery SOC%, voltage, current, temperature
+### Key screens for this test
 - **Settings** — gear icon, shows Module ID / CAN / RS485 cards
 - **Diagnostics** — accessible from navigation, has "Send Logs" button
 
@@ -28,16 +28,16 @@
 
 Fill in after each test. Mark PASS or FAIL.
 
-| # | Test | PASS / FAIL | Module ID | CAN | RS485 | Battery Data | Notes |
-|---|------|-------------|-----------|-----|-------|-------------|-------|
-| 1 | Fresh Connection | | | | | | |
-| 2 | Settings Screen UI | | | | | | |
-| 3 | Protocol Data Loading | | | | | | |
-| 4 | Protocol Change + Save | | | | | | |
-| 5 | Mid-Session Reconnect | | | | | | |
-| 6 | Cross-Session Reconnect | | | | | | |
-| 7 | Settings Navigation | | | | | | |
-| 8 | Diagnostics Export | | | | | | |
+| # | Test | PASS / FAIL | Module ID | CAN | RS485 | Notes |
+|---|------|-------------|-----------|-----|-------|-------|
+| 1 | Connect + Open Settings | | | | | |
+| 2 | Settings Screen UI | | | | | |
+| 3 | Protocol Data Loading | | | | | |
+| 4 | Protocol Change + Save | | | | | |
+| 5 | Mid-Session Reconnect → Settings | | | | | |
+| 6 | Cross-Session Reconnect → Settings | | | | | |
+| 7 | Settings Navigation (round trips) | | | | | |
+| 8 | Diagnostics Export | | | | | |
 
 **App Version:** _______________
 **Phone Model:** _______________
@@ -48,9 +48,9 @@ Fill in after each test. Mark PASS or FAIL.
 
 ---
 
-## Test 1: Fresh Connection (CRITICAL)
+## Test 1: Connect + Open Settings (CRITICAL)
 
-**Goal:** Verify first-time connection and data loading.
+**Goal:** Connect to the module and verify Settings screen opens with data.
 
 ### Steps
 
@@ -59,32 +59,34 @@ Fill in after each test. Mark PASS or FAIL.
 3. Wait 5 seconds
 4. Turn ON Bluetooth
 5. Open the app
-6. On the Home screen, tap the **Bluetooth card** (shows device name or "Not Connected")
-7. The scan screen appears — find the battery module in the list
-8. Tap the module name to connect
-9. Wait for the Home screen to load data (up to 5 seconds)
+6. Connect to the battery module (tap Bluetooth card → scan → tap module name)
+7. Wait for connection (up to 5 seconds)
+8. Tap the **Settings** icon (gear)
+9. Wait 3 seconds for protocol data to load
 
 ### Expected Result
 
-- Home screen shows:
-  - **SOC** percentage (not 0% or --)
-  - **Voltage** value (e.g. 52.10V)
-  - **Current** value (e.g. 0.00A)
-  - **Temperature** value
-  - **Status badge** (Standby / Charging / Discharging)
-- Connection status shows **Connected** (green indicator)
+- Settings screen opens
+- **Connection Status Banner** at top shows "Connected" with green icon
+- **Module ID** card shows a value (number 1-16)
+- **CAN Protocol** card shows a protocol name
+- **RS485 Protocol** card shows a protocol name
+- No values show "--" or are blank
 
 ### If FAILED
 
-- Screenshot the Home screen
-- Note what shows `--` or `0`
+- Screenshot the Settings screen
+- Note which values show "--" or are missing
 - Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Fresh connection — [what failed]"
+- Write in Notes: "Connect + Settings — [what failed]"
 
 ### Log lines to look for
 ```
 CONNECTION event — successful connection
-DATA_UPDATE event — BMS data received
+protocolInfo section in JSON:
+  "moduleId" — should have a value
+  "canProtocol" — should have a value
+  "rs485Protocol" — should have a value
 ```
 
 ---
@@ -95,7 +97,7 @@ DATA_UPDATE event — BMS data received
 
 ### Steps
 
-1. From Home screen, tap the **Settings** icon (gear)
+1. Open Settings screen (should already be there from Test 1)
 2. Check each element listed below
 3. Take a screenshot of the full Settings screen
 
@@ -132,9 +134,9 @@ Check each item:
 1. Go to Settings screen
 2. Wait 3 seconds for all data to load
 3. Check the values shown on each card:
-   - **Module ID card** → `selectedId` field
-   - **CAN Protocol card** → `canId` field
-   - **RS485 Protocol card** → `RS485Id` field
+   - **Module ID card** → selected value
+   - **CAN Protocol card** → selected protocol name
+   - **RS485 Protocol card** → selected protocol name
 4. Take a screenshot showing all three values
 
 ### Expected Result
@@ -188,6 +190,8 @@ protocolInfo section in diagnostics JSON:
 9. Wait — the battery will restart (takes 5-10 seconds)
 10. The app should show a disconnection message
 11. Wait for the battery to restart and reconnect (or reconnect manually)
+12. Go to Settings screen
+13. Check: CAN Protocol shows the **new** value you selected
 
 ### Expected Result
 
@@ -196,7 +200,7 @@ protocolInfo section in diagnostics JSON:
 - After step 6: Save button is active/clickable
 - After step 7-8: confirmation dialog appears
 - After step 9: battery disconnects (this is expected — battery restarts)
-- After reconnection: Settings shows the **new** CAN protocol value
+- After step 13: Settings shows the **new** CAN protocol value
 
 ### If FAILED
 
@@ -207,44 +211,48 @@ protocolInfo section in diagnostics JSON:
 - Write in Notes: "Protocol save — [what happened]"
 
 ### After this test
-**Restore the original protocol:** repeat steps 3-11 to set CAN back to the original value you wrote down.
+**Restore the original protocol:** repeat steps 3-13 to set CAN back to the original value you wrote down.
 
 ---
 
-## Test 5: Mid-Session Reconnect (CRITICAL)
+## Test 5: Mid-Session Reconnect → Settings (CRITICAL)
 
-**Goal:** Verify reconnection works when BLE signal is temporarily lost.
+**Goal:** Verify Settings data loads correctly after BLE signal loss and reconnection.
 
 ### Steps
 
-1. Ensure the app is connected and Home screen shows battery data
-2. **Walk away** from the battery module (go to another room, ~10+ meters)
-3. Wait until the app shows disconnection (Home screen may show "--" values)
-4. **Walk back** to the battery module (within 3-5 meters)
-5. The app should be in the foreground
-6. Wait up to 10 seconds for auto-reconnect
+1. Ensure the app is connected (check Settings — banner shows "Connected")
+2. Go to Settings screen, **write down** values: Module ID, CAN, RS485
+3. **Walk away** from the battery module (go to another room, ~10+ meters)
+4. Wait until the Settings banner shows disconnection
+5. **Walk back** to the battery module (within 3-5 meters)
+6. Keep the app in the foreground
+7. Wait up to 10 seconds for auto-reconnect
+8. Once reconnected, check Settings screen: Module ID, CAN, RS485 values
 
 ### Expected Result
 
-- Step 3: App shows disconnection — values may turn to "--"
-- Step 6: App automatically reconnects:
-  - Home screen shows battery data again (SOC, Voltage, Current)
-  - Connection status returns to "Connected"
-  - No crash, no freeze
+- Step 4: Connection Status Banner changes to "Disconnected"
+- Step 7: App automatically reconnects — banner returns to "Connected"
+- Step 8: All three values (Module ID, CAN, RS485) match what you wrote in step 2
+- No "--" values on the Settings screen after reconnection
+- No crash, no freeze
 
 ### Alternative (if auto-reconnect does not happen)
 
 If after 10 seconds the app does NOT reconnect:
-1. Navigate to the Bluetooth scan screen
-2. Tap the battery module to reconnect manually
-3. Note: "Auto-reconnect did not work, manual reconnect required"
+1. Go back, connect manually (Bluetooth card → scan → tap module)
+2. Go to Settings screen
+3. Check values
+4. Note: "Auto-reconnect did not work, manual reconnect required"
 
 ### If FAILED
 
 - Note how long you waited before giving up
 - Note if the app crashed or froze
+- Screenshot Settings screen after reconnection (especially "--" values)
 - Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Mid-session reconnect — [auto/manual], waited [X] seconds, [what happened]"
+- Write in Notes: "Mid-session reconnect — [auto/manual], waited [X] seconds, Settings values: [what you see]"
 
 ### Log lines to look for
 ```
@@ -254,63 +262,57 @@ CONNECTION event — when reconnected
 
 ---
 
-## Test 6: Cross-Session Reconnect (IMPORTANT)
+## Test 6: Cross-Session Reconnect → Settings (IMPORTANT)
 
-**Goal:** Verify the app reconnects after being killed and reopened.
+**Goal:** Verify Settings data loads correctly after app kill and reopen.
 
 ### Steps
 
-1. Ensure the app is connected and Home screen shows data
-2. Note the **device name** shown in the Bluetooth card
+1. Ensure the app is connected
+2. Go to Settings, **write down** values: Module ID, CAN, RS485
 3. **Kill the app** completely:
    - Press the Recent Apps button (square button)
    - Swipe the app away to force close
 4. Wait 3 seconds
 5. Open the app again
-6. Wait up to 10 seconds on the Home screen
+6. Connect to the module (auto or manual — note which happened)
+7. Go to Settings screen
+8. Check values: Module ID, CAN, RS485
 
 ### Expected Result
 
-**One of two outcomes is acceptable:**
+- App reopens without crash
+- Connection established (auto or manual)
+- Settings shows the **same** values as step 2
+- No "--" values after data loads (wait up to 3 seconds)
 
-**Outcome A — Auto-connect:**
-- App automatically connects to the previously used device
-- Home screen shows battery data within 10 seconds
-- No user action needed
-
-**Outcome B — Manual connect:**
-- App opens to Home screen with no data
-- User taps Bluetooth card → scan screen
-- Previous device appears in the list
-- Tap to connect → data loads
-
-**Note which outcome happened** in the results table.
+**Note which reconnect type happened** (auto or manual) in the results table.
 
 ### If FAILED
 
-- Neither outcome works — app cannot find or connect to the device
 - Note any error messages on screen
+- Screenshot Settings screen (especially "--" values)
 - Go to Diagnostics → tap **Send Logs**
-- Write in Notes: "Cross-session reconnect — [outcome A/B/failed], [error messages if any]"
+- Write in Notes: "Cross-session — [auto/manual/failed], Settings values: [what you see]"
 
 ### Known issue (from iOS)
 In iOS builds 43-44, the saved device UUID was lost on app restart, making auto-reconnect impossible. Check if Android has the same issue.
 
 ---
 
-## Test 7: Settings Navigation (IMPORTANT)
+## Test 7: Settings Navigation — Round Trips (IMPORTANT)
 
-**Goal:** Verify navigating away from Settings and back preserves data.
+**Goal:** Verify navigating away from Settings and back preserves protocol data.
 
 ### Steps
 
 1. Go to Settings screen
 2. **Write down** (or screenshot) the values: Module ID, CAN, RS485
-3. Go back to Home screen
+3. Go back (leave Settings screen)
 4. Wait 3 seconds
 5. Go to Settings screen again
 6. Check: Module ID, CAN, RS485 values are the same as step 2
-7. Repeat steps 3-6 two more times (total 3 round trips)
+7. Repeat steps 3-6 **two more times** (total 3 round trips)
 
 ### Expected Result
 
@@ -369,7 +371,6 @@ In iOS builds 45-47, navigating away could cancel BLE subscriptions, causing Mod
 
 1. **Filled results table** (copy from above, fill in all columns)
 2. **Screenshots:**
-   - Home screen (showing battery data)
    - Settings screen (showing Module ID, CAN, RS485 values)
    - Diagnostics screen (showing event logs)
 3. **Logs:** Should already be sent via email after each failed test
@@ -387,29 +388,29 @@ In iOS builds 45-47, navigating away could cancel BLE subscriptions, causing Mod
 
 ### Screen navigation
 ```
-Home (main screen)
-  ├── Bluetooth card → Scan / Connect
-  ├── Settings icon → Settings screen
-  └── Navigation → Diagnostics screen
-
 Settings screen
-  ├── Module ID card (tap to change)
-  ├── CAN Protocol card (tap to change)
-  ├── RS485 Protocol card (tap to change)
-  └── Save button (saves changes, restarts battery)
+  ├── Connection Status Banner (top — green/red)
+  ├── Note Label (description text)
+  ├── Module ID card (tap to change, shows 1-16)
+  ├── CAN Protocol card (tap to change, shows protocol name)
+  ├── RS485 Protocol card (tap to change, shows protocol name)
+  ├── Save button (saves changes, restarts battery)
+  ├── Information Banner (instructions text)
+  └── Version (app version at bottom)
 
 Diagnostics screen
-  ├── Events list (scrollable)
-  └── Send Logs button (emails JSON file)
+  ├── Back button (top left)
+  ├── Events list (scrollable, shows timestamps)
+  └── Send Logs button (creates JSON → opens email)
 ```
 
 ### What "--" means
-If you see "--" instead of a value, it means the data has not loaded yet. Wait 3-5 seconds. If it persists, that's a bug — mark the test as FAILED and send logs.
+If you see "--" instead of a value on the Settings screen, it means the protocol data has not loaded yet. Wait 3-5 seconds. If it persists, that is a bug — mark the test as FAILED and send logs.
 
 ### Battery restart after Save
-When you tap Save in Settings, the battery module restarts. This is **normal behavior**. The app will disconnect temporarily. Wait for it to reconnect.
+When you tap Save in Settings, the battery module restarts. This is **normal behavior**. The app will disconnect temporarily. Wait for it to reconnect, then go back to Settings to verify the new value.
 
 ### Timing reference
-- Data loads on Home screen: ~1.5 seconds after connection
-- Protocol data loads on Settings: ~1.2 seconds (sequential requests)
+- Protocol data loads on Settings: ~1.2 seconds (sequential: Module ID → CAN → RS485)
 - Battery restart after Save: 5-10 seconds
+- Auto-reconnect after signal loss: up to 10 seconds
