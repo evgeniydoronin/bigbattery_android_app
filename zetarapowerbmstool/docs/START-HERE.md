@@ -8,7 +8,7 @@
 
 | Параметр | Значение |
 |----------|----------|
-| **Текущая версия** | 3.0.3 (versionCode 15) |
+| **Текущая версия** | 3.0.4 (versionCode 16) |
 | **Фокус тестирования** | Settings screen |
 | **Тестировщик** | Kunj |
 | **Последнее обновление** | 2025-01-29 |
@@ -226,13 +226,80 @@ docs/
 
 ---
 
+## Release Workflow — Выпуск новой версии
+
+### ОБЯЗАТЕЛЬНЫЙ порядок при изменении кода
+
+```
+1. Создать ветку → fix/название-X.X.X или feature/название-X.X.X
+2. Сделать изменения
+3. Обновить версию в build.gradle (versionName + versionCode)
+4. Коммит БЕЗ копирайтов
+5. Push в ветку
+6. Создать PR
+7. ЖДАТЬ подтверждения от пользователя
+8. После merge — подтянуть изменения в main локально
+```
+
+### Пример
+
+```bash
+# 1. Создать ветку
+git checkout -b fix/protocol-loading-3.0.5
+
+# 2. Внести изменения...
+
+# 3. Обновить версию в app/build.gradle:
+#    versionName "3.0.5"
+#    versionCode  17
+
+# 4. Коммит (БЕЗ Co-Authored-By!)
+git add app/build.gradle app/src/...
+git commit -m "fix: описание изменений"
+
+# 5. Push
+git push -u origin fix/protocol-loading-3.0.5
+
+# 6. Создать PR
+gh pr create --title "fix: описание (vX.X.X)" --body "..."
+
+# 7. СТОП! Ждём подтверждения merge от пользователя
+
+# 8. После merge:
+git checkout main
+git pull
+git branch -d fix/protocol-loading-3.0.5
+```
+
+### Версионирование
+
+| Тип изменения | Что менять |
+|---------------|------------|
+| Bug fix | Patch: 3.0.3 → 3.0.4 |
+| Новая функция | Minor: 3.0.x → 3.1.0 |
+| Breaking change | Major: 3.x.x → 4.0.0 |
+
+**versionCode** — всегда увеличивать на 1
+
+---
+
 ## Напоминания
 
 ### Перед коммитом
 
 - ❌ **NO COPYRIGHTS** — не добавлять "Co-Authored-By" или "Generated with Claude Code"
+- ❌ **НЕ ПУШИТЬ В MAIN** — только через ветку и PR
 - ✅ Документация (.md файлы) — можно пушить в main напрямую
-- ✅ Код — через ветку и PR
+- ✅ Код — **ТОЛЬКО** через ветку и PR
+- ✅ Ветка должна содержать **постфикс версии** (например `fix/bug-3.0.5`)
+
+### После merge PR
+
+```bash
+git checkout main
+git pull
+git branch -d <имя-ветки>
+```
 
 ### После получения логов
 
