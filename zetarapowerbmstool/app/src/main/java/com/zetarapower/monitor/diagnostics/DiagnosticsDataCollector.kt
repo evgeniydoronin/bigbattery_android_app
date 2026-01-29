@@ -203,18 +203,28 @@ class DiagnosticsDataCollector(private val context: Context) {
             it.protocolArray.getOrNull(it.selectedIndex) ?: "--"
         } ?: "--"
 
+        val protocolLogs = ProtocolLogger.getLogs()
+
         return JSONObject().apply {
             put("currentValues", JSONObject().apply {
                 put("moduleId", moduleId)
                 put("canProtocol", canProtocol)
                 put("rs485Protocol", rs485Protocol)
             })
-            put("recentLogs", JSONArray()) // Protocol logs not implemented in Android yet
+            put("recentLogs", JSONArray().apply {
+                protocolLogs.forEach { entry ->
+                    put(JSONObject().apply {
+                        put("timestamp", dateFormatter.format(entry.timestamp))
+                        put("type", entry.type)
+                        put("message", entry.message)
+                    })
+                }
+            })
             put("statistics", JSONObject().apply {
-                put("totalLogs", 0)
-                put("errors", 0)
-                put("successes", 0)
-                put("warnings", 0)
+                put("totalLogs", protocolLogs.size)
+                put("errors", protocolLogs.count { it.type == "BLE_ERROR" || it.type == "ERROR" })
+                put("successes", protocolLogs.count { it.type == "BLE_WRITE" || it.type == "SUCCESS" || it.type == "RESPONSE" })
+                put("warnings", protocolLogs.count { it.type == "WARNING" || it.type == "SKIP" })
             })
             put("lastUpdateTime", dateFormatter.format(Date()))
         }
