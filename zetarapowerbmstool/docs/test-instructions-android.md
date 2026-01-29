@@ -20,7 +20,14 @@
 
 ### Key screens for this test
 - **Settings** — gear icon, shows Module ID / CAN / RS485 cards
-- **Diagnostics** — accessible from navigation, has "Send Logs" button
+- **Diagnostics** — hidden screen, has "Send Logs" button
+
+### How to open Diagnostics (important!)
+The Diagnostics screen is hidden. To open it:
+1. Go to **Settings** screen
+2. Scroll to the bottom — find the app **version number**
+3. **Long press** (hold 2 seconds) on the version text
+4. Diagnostics screen will open
 
 ---
 
@@ -379,11 +386,14 @@ Settings screen
   ├── Information Banner (instructions text)
   └── Version (app version at bottom)
 
-Diagnostics screen
+Diagnostics screen (hidden — long press on version to open)
   ├── Back button (top left)
   ├── Events list (scrollable, shows timestamps)
   └── Send Logs button (creates JSON → opens email)
 ```
+
+### How to open Diagnostics
+Settings → scroll to bottom → **long press on version number** (hold 2 sec) → Diagnostics opens
 
 ### What "--" means
 If you see "--" instead of a value on the Settings screen, it means the protocol data has not loaded yet. Wait 3-5 seconds. If it persists, that is a bug — mark the test as FAILED and send logs.
@@ -399,6 +409,15 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 ---
 
 ## Перевод шагов на русский
+
+### Как открыть Diagnostics (важно!)
+Экран Diagnostics скрытый. Чтобы открыть:
+1. Перейти на экран **Settings**
+2. Пролистать вниз — найти **номер версии** приложения
+3. **Долго нажать** (удерживать 2 секунды) на текст версии
+4. Откроется экран Diagnostics
+
+---
 
 ### Тест 1: Подключение + открыть Settings (CRITICAL)
 
