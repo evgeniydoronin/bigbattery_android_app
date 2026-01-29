@@ -161,31 +161,47 @@ class MainActivity : AppCompatActivity() {
 
     fun getSettingData(delayTime: Long = 0L) {
         var delay = delayTime
+        FL.i("PROTOCOL", "getSettingData called, initial delay=$delay")
+        FL.i("PROTOCOL", "Current state: selectedId=${mainViewModel?.selectedId?.value}, canData=${mainViewModel?.canData?.value}, rs485=${mainViewModel?.rs485Protocol?.value}")
+
+        // Module ID request
         if (getString(R.string.settings_module_ID) == "true") {
-            if (mainViewModel?.selectedId?.value == -1) {
-                handler.postDelayed({
+            handler.postDelayed({
+                if (mainViewModel?.selectedId?.value == -1) {
+                    FL.i("PROTOCOL", "Sending Module ID request")
                     mainViewModel?.getBMSModuleIdData(
                         BleManager.getInstance().allConnectedDevice[0],
                         null
                     )
-                }, delay)
-                delay += 600L
-            }
+                } else {
+                    FL.i("PROTOCOL", "Module ID already loaded: ${mainViewModel?.selectedId?.value}")
+                }
+            }, delay)
+            delay += 600L  // Always increment delay for proper timing
         }
 
+        // CAN and RS485 requests
         if (getString(R.string.settings_module_CAN) == "true") {
-            if (mainViewModel?.canData?.value == null) {
-                handler.postDelayed(Runnable {
+            handler.postDelayed({
+                if (mainViewModel?.canData?.value == null) {
+                    FL.i("PROTOCOL", "Sending CAN request, delay=$delay")
                     mainViewModel?.getCanData(BleManager.getInstance().allConnectedDevice[0], null)
-                }, delay)
-                delay += 600L
-            }
-            if (mainViewModel?.rs485Protocol?.value == null) {
-                handler.postDelayed(Runnable {
+                } else {
+                    FL.i("PROTOCOL", "CAN already loaded: ${mainViewModel?.canData?.value}")
+                }
+            }, delay)
+            delay += 600L  // Always increment delay for proper timing
+
+            handler.postDelayed({
+                if (mainViewModel?.rs485Protocol?.value == null) {
+                    FL.i("PROTOCOL", "Sending RS485 request, delay=$delay")
                     mainViewModel?.getRS485Data(BleManager.getInstance().allConnectedDevice[0], null)
-                }, delay)
-            }
+                } else {
+                    FL.i("PROTOCOL", "RS485 already loaded: ${mainViewModel?.rs485Protocol?.value}")
+                }
+            }, delay)
         }
+        FL.i("PROTOCOL", "getSettingData finished scheduling, final delay=$delay")
     }
 
     fun startTimer() {
