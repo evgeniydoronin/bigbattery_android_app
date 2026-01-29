@@ -38,8 +38,8 @@ android {
         battery {
             applicationId "com.zetarapower.monitor.bl"
             dimension "company"
-            versionName "3.0.2"
-            versionCode  14
+            versionName "3.0.4"
+            versionCode  16
         }
     }
 

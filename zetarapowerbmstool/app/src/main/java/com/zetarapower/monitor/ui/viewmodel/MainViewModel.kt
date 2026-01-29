@@ -274,7 +274,9 @@ class MainViewModel : ViewModel() {
      *  处理setting数据
      */
     private fun handleSettingsData(data: ByteArray) {
+        FL.i("PROTOCOL", "Settings data received: ${HexUtil.encodeHexStr(data)}")
         if (!data.crc16Verify()) {
+            FL.w("PROTOCOL", "CRC verification failed for settings data")
             return
         }
         when (data[1]) {
@@ -332,8 +334,10 @@ class MainViewModel : ViewModel() {
 
 
     private fun handleSettingProtocol(data: ByteArray, type: Int) {
+        val typeName = if (type == BMSProtocalV2.FUN_CODE_RS485_GET) "RS485" else "CAN"
         var selectedIndex = data[3].toInt()
         var protocolDataSize = data[4].toInt()
+        FL.i("PROTOCOL", "Parsing $typeName: selectedIndex=$selectedIndex, protocolCount=$protocolDataSize")
         var protocolArray = ArrayList<String>(protocolDataSize)
         for (i in 0 until protocolDataSize) {
             // 50 30 31 2D 47 52 57 00 00 00
@@ -343,10 +347,13 @@ class MainViewModel : ViewModel() {
             }
             protocolArray.add(i, String(data, 5 + i * 10, length))
         }
+        FL.i("PROTOCOL", "Parsed $typeName protocols: $protocolArray")
         if (type == BMSProtocalV2.FUN_CODE_RS485_GET) {
             _rs485Protocol.value = SettingsProtocolData(selectedIndex, protocolArray)
+            FL.i("PROTOCOL", "RS485 LiveData updated: selectedIndex=$selectedIndex")
         } else if (type == BMSProtocalV2.FUN_CODE_CAN_GET) {
             _canData.value = SettingsProtocolData(selectedIndex, protocolArray)
+            FL.i("PROTOCOL", "CAN LiveData updated: selectedIndex=$selectedIndex")
         }
     }
 
