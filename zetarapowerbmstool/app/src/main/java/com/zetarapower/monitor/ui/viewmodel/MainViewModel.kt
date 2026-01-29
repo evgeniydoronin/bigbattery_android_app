@@ -13,6 +13,7 @@ import com.clj.fastble.exception.BleException
 import com.clj.fastble.utils.HexUtil
 import com.zetarapower.monitor.R
 import com.zetarapower.monitor.app.PowerMonitorApp
+import com.zetarapower.monitor.diagnostics.ProtocolLogger
 import com.zetarapower.monitor.bluetooth.ZetaraBleUUID
 import com.zetarapower.monitor.logic.*
 import java.text.SimpleDateFormat
@@ -259,12 +260,16 @@ class MainViewModel : ViewModel() {
      *   "10033400055030312D4752570000005030322D4C55580000005030332D5343480000005030342D494E480000005030352D564F4C000000BCD8"
      */
     fun handleResponseData(data: ByteArray) {
-        FL.i("BLEData", HexUtil.encodeHexStr(data))
+        val hexData = HexUtil.encodeHexStr(data)
+        FL.i("BLEData", hexData)
+        ProtocolLogger.log("RESPONSE", "Data received: $hexData")
         when (data[0]) {
             BMSProtocalV2.ADDRESS_CODE_BMS.toByte() -> { // ble data
+                ProtocolLogger.log("RESPONSE", "BMS data (addr=0x01)")
                 bmsSplitter.addBLEData(data)
             }
             BMSProtocalV2.ADDRESS_CODE_SETTINGS.toByte() -> { // settings data
+                ProtocolLogger.log("RESPONSE", "Settings data (addr=0x10)")
                 handleSettingsData(data)
             }
         }
@@ -275,13 +280,18 @@ class MainViewModel : ViewModel() {
      */
     private fun handleSettingsData(data: ByteArray) {
         FL.i("PROTOCOL", "Settings data received: ${HexUtil.encodeHexStr(data)}")
+        ProtocolLogger.log("PARSE", "handleSettingsData: ${HexUtil.encodeHexStr(data)}")
         if (!data.crc16Verify()) {
             FL.w("PROTOCOL", "CRC verification failed for settings data")
+            ProtocolLogger.log("ERROR", "CRC verification failed")
             return
         }
+        ProtocolLogger.log("PARSE", "CRC OK, funCode=0x${String.format("%02X", data[1])}")
         when (data[1]) {
             BMSProtocalV2.FUN_CODE_IDS_GET.toByte() -> {
-                _selectedId.value = data[3].toInt()
+                val moduleId = data[3].toInt()
+                ProtocolLogger.log("PARSE", "Module ID parsed: $moduleId")
+                _selectedId.value = moduleId
             }
             BMSProtocalV2.FUN_CODE_IDS_SET.toByte() -> {
                 if (data[3].toInt() == 0) {
@@ -348,12 +358,15 @@ class MainViewModel : ViewModel() {
             protocolArray.add(i, String(data, 5 + i * 10, length))
         }
         FL.i("PROTOCOL", "Parsed $typeName protocols: $protocolArray")
+        ProtocolLogger.log("PARSE", "$typeName protocols: $protocolArray")
         if (type == BMSProtocalV2.FUN_CODE_RS485_GET) {
             _rs485Protocol.value = SettingsProtocolData(selectedIndex, protocolArray)
             FL.i("PROTOCOL", "RS485 LiveData updated: selectedIndex=$selectedIndex")
+            ProtocolLogger.log("SUCCESS", "RS485 LiveData updated: selectedIndex=$selectedIndex")
         } else if (type == BMSProtocalV2.FUN_CODE_CAN_GET) {
             _canData.value = SettingsProtocolData(selectedIndex, protocolArray)
             FL.i("PROTOCOL", "CAN LiveData updated: selectedIndex=$selectedIndex")
+            ProtocolLogger.log("SUCCESS", "CAN LiveData updated: selectedIndex=$selectedIndex")
         }
     }
 
@@ -362,16 +375,19 @@ class MainViewModel : ViewModel() {
      *
      */
     private fun sendBLEControlData(device: BleDevice, uuid: ZetaraBleUUID, opHex: String) {
+        ProtocolLogger.log("BLE_WRITE", "Sending: $opHex")
         BleManager.getInstance()
             .write(device, uuid.primaryServiceUUID.toString(), uuid.writeUUID.toString(),
                 HexUtil.hexStringToBytes(opHex),
                 object : BleWriteCallback() {
                     override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
                         FL.i("MainViewModel", "write $opHex success")
+                        ProtocolLogger.log("BLE_WRITE", "Success: $opHex")
                     }
 
                     override fun onWriteFailure(exception: BleException?) {
                         FL.i("MainViewModel", "write $opHex error")
+                        ProtocolLogger.log("BLE_ERROR", "Failed: $opHex - ${exception?.description ?: "unknown"}")
                     }
                 })
     }

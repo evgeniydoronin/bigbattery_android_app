@@ -39,6 +39,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 // Временно отключено из-за проблем с доступом к JitPack
 // import com.jaeger.library.StatusBarUtil
 import com.zetarapower.monitor.bluetooth.ZetaraBleUUID
+import com.zetarapower.monitor.diagnostics.ProtocolLogger
 import com.zetarapower.monitor.ui.fragment.ConnectCallback
 import com.zetarapower.monitor.ui.fragment.MainFragment
 import com.zetarapower.monitor.ui.fragment.ScanFragment
@@ -162,19 +163,24 @@ class MainActivity : AppCompatActivity() {
     fun getSettingData(delayTime: Long = 0L) {
         var delay = delayTime
         FL.i("PROTOCOL", "getSettingData called, initial delay=$delay")
+        ProtocolLogger.log("REQUEST", "getSettingData called, initial delay=$delay")
         FL.i("PROTOCOL", "Current state: selectedId=${mainViewModel?.selectedId?.value}, canData=${mainViewModel?.canData?.value}, rs485=${mainViewModel?.rs485Protocol?.value}")
+        ProtocolLogger.log("STATE", "selectedId=${mainViewModel?.selectedId?.value}, canData=${mainViewModel?.canData?.value}, rs485=${mainViewModel?.rs485Protocol?.value}")
 
         // Module ID request
         if (getString(R.string.settings_module_ID) == "true") {
+            ProtocolLogger.log("REQUEST", "Module ID request scheduled, delay=$delay")
             handler.postDelayed({
                 if (mainViewModel?.selectedId?.value == -1) {
                     FL.i("PROTOCOL", "Sending Module ID request")
+                    ProtocolLogger.log("REQUEST", "Sending Module ID request NOW")
                     mainViewModel?.getBMSModuleIdData(
                         BleManager.getInstance().allConnectedDevice[0],
                         null
                     )
                 } else {
                     FL.i("PROTOCOL", "Module ID already loaded: ${mainViewModel?.selectedId?.value}")
+                    ProtocolLogger.log("SKIP", "Module ID already loaded: ${mainViewModel?.selectedId?.value}")
                 }
             }, delay)
             delay += 600L  // Always increment delay for proper timing
@@ -182,26 +188,33 @@ class MainActivity : AppCompatActivity() {
 
         // CAN and RS485 requests
         if (getString(R.string.settings_module_CAN) == "true") {
+            ProtocolLogger.log("REQUEST", "CAN request scheduled, delay=$delay")
             handler.postDelayed({
                 if (mainViewModel?.canData?.value == null) {
                     FL.i("PROTOCOL", "Sending CAN request, delay=$delay")
+                    ProtocolLogger.log("REQUEST", "Sending CAN request NOW")
                     mainViewModel?.getCanData(BleManager.getInstance().allConnectedDevice[0], null)
                 } else {
                     FL.i("PROTOCOL", "CAN already loaded: ${mainViewModel?.canData?.value}")
+                    ProtocolLogger.log("SKIP", "CAN already loaded")
                 }
             }, delay)
             delay += 600L  // Always increment delay for proper timing
 
+            ProtocolLogger.log("REQUEST", "RS485 request scheduled, delay=$delay")
             handler.postDelayed({
                 if (mainViewModel?.rs485Protocol?.value == null) {
                     FL.i("PROTOCOL", "Sending RS485 request, delay=$delay")
+                    ProtocolLogger.log("REQUEST", "Sending RS485 request NOW")
                     mainViewModel?.getRS485Data(BleManager.getInstance().allConnectedDevice[0], null)
                 } else {
                     FL.i("PROTOCOL", "RS485 already loaded: ${mainViewModel?.rs485Protocol?.value}")
+                    ProtocolLogger.log("SKIP", "RS485 already loaded")
                 }
             }, delay)
         }
         FL.i("PROTOCOL", "getSettingData finished scheduling, final delay=$delay")
+        ProtocolLogger.log("REQUEST", "getSettingData finished scheduling, final delay=$delay")
     }
 
     fun startTimer() {
