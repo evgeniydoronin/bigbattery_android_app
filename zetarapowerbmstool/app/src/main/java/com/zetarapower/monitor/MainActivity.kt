@@ -235,12 +235,13 @@ class MainActivity : AppCompatActivity() {
             mainViewModel?.removeNotifyStatus(BleManager.getInstance().allConnectedDevice[0])
             if (!BleManager.getInstance().isConnected(BleManager.getInstance().allConnectedDevice[0])) {
                 FL.i("MainActivity", "onResume disConnected")
+                ProtocolLogger.log("RECONNECT", "Device disconnected, attempting auto-reconnect...")
                 BleManager.getInstance().connect(BleManager.getInstance().allConnectedDevice[0], object : BleGattCallback() {
                     override fun onStartConnect() {
-
+                        ProtocolLogger.log("RECONNECT", "Auto-reconnect started")
                     }
                     override fun onConnectFail(bleDevice: BleDevice?, exception: BleException?) {
-
+                        ProtocolLogger.log("RECONNECT", "Auto-reconnect FAILED: ${exception?.description ?: "unknown error"}")
                     }
                     override fun onConnectSuccess(
                         bleDevice: BleDevice?,
@@ -248,6 +249,7 @@ class MainActivity : AppCompatActivity() {
                         status: Int
                     ) {
                         FL.i("MainActivity", "onResume connected success")
+                        ProtocolLogger.log("RECONNECT", "Auto-reconnect SUCCESS: ${bleDevice?.name ?: bleDevice?.mac}")
                         BleManager.getInstance()
                             .setMtu(bleDevice, 510, object : BleMtuChangedCallback() {
                                 override fun onSetMTUFailure(exception: BleException) {
@@ -265,7 +267,8 @@ class MainActivity : AppCompatActivity() {
                         gatt: BluetoothGatt?,
                         status: Int
                     ) {
-
+                        val reason = if (isActiveDisConnected) "user initiated" else "connection lost"
+                        ProtocolLogger.log("RECONNECT", "Disconnected after reconnect attempt: ${device?.name}, reason: $reason")
                     }
                 })
             }

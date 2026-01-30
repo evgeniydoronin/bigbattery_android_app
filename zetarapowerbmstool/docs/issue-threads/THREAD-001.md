@@ -1,6 +1,6 @@
 # THREAD-001: CAN Protocol не отображается на Settings
 
-## Status: 🔴 ACTIVE
+## Status: 🟡 IN PROGRESS
 
 ## Симптомы
 
@@ -30,6 +30,36 @@
 
 ## Timeline
 
+### Test 2026-01-30 (Build 3.0.5) — INV Battery
+
+**Tester:** Manual test
+**Device:** Google Pixel 6a, Android 16
+**Battery:** BB-51.2V100Ah-0855 (INV type)
+**Result:** ✅ PASS (Test 1: Connect + Open Settings)
+
+**Logs:** `docs/logs/bigbattery_logs_android_20260130_113932.json`
+
+**What worked:**
+- Module ID: **ID1** ✅
+- CAN Protocol: **P01-GRW** ✅
+- RS485 Protocol: **P01-GRW** ✅
+- SET операции (смена протоколов): ✅
+- BLE connection stable
+- No errors (errors: 0, successes: 39)
+
+**Protocol commands verified:**
+| Command | Code | GET | SET |
+|---------|------|-----|-----|
+| Module ID | 0x02/0x05 | ✅ | ✅ |
+| RS485 | 0x03/0x07 | ✅ | ✅ |
+| CAN | 0x04/0x06 | ✅ | ✅ |
+
+**Next steps:**
+- Continue with Tests 2-8
+- Test with PWR battery (no CAN/RS485 — expected "--")
+
+---
+
 ### Report #1 (2025-01-29)
 
 **Tester:** Kunj
@@ -51,11 +81,11 @@
 
 ## Metrics
 
-| Метрика | Build 3.0.2 | Build X.X.X |
-|---------|-------------|-------------|
-| Module ID загружается | ? | |
-| CAN Protocol загружается | ❌ | |
-| RS485 Protocol загружается | ? | |
+| Метрика | Build 3.0.2 | Build 3.0.5 (INV) |
+|---------|-------------|-------------------|
+| Module ID загружается | ? | ✅ ID1 |
+| CAN Protocol загружается | ❌ | ✅ P01-GRW |
+| RS485 Protocol загружается | ? | ✅ P01-GRW |
 
 ---
 
@@ -69,4 +99,6 @@
 
 ## Логи
 
-*(Добавить ссылки на логи после получения от Kunj)*
+| Дата | Build | Battery | Файл |
+|------|-------|---------|------|
+| 2026-01-30 | 3.0.5 | INV (BB-51.2V100Ah-0855) | `docs/logs/bigbattery_logs_android_20260130_113932.json` |
