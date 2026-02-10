@@ -86,6 +86,25 @@ class SettingsFragmentNew : Fragment() {
     private var currentRS485Index: Int? = null
 
     private val handler = Handler(Looper.getMainLooper())
+    private var lastConnectionState: Boolean? = null
+
+    private val connectionCheckRunnable = object : Runnable {
+        override fun run() {
+            if (isAdded) {
+                val isConnected = BleManager.getInstance().allConnectedDevice?.isNotEmpty() == true
+                if (isConnected != lastConnectionState) {
+                    lastConnectionState = isConnected
+                    ProtocolLogger.log("CONNECTION", "Settings screen connection status update: connected=$isConnected")
+                    if (isConnected) {
+                        showConnectedStatus()
+                    } else {
+                        showDisconnectedStatus()
+                    }
+                }
+                handler.postDelayed(this, CONNECTION_CHECK_INTERVAL)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,8 +170,9 @@ class SettingsFragmentNew : Fragment() {
             showSaveConfirmationDialog()
         }
 
-        // Update connection status
+        // Start periodic connection status check
         updateConnectionStatus()
+        handler.postDelayed(connectionCheckRunnable, CONNECTION_CHECK_INTERVAL)
     }
 
     /**
@@ -428,6 +448,7 @@ class SettingsFragmentNew : Fragment() {
      */
     private fun updateConnectionStatus() {
         val isConnected = BleManager.getInstance().allConnectedDevice?.isNotEmpty() == true
+        lastConnectionState = isConnected
         ProtocolLogger.log("CONNECTION", "Settings screen connection status update: connected=$isConnected")
         if (isConnected) {
             showConnectedStatus()
@@ -604,18 +625,11 @@ class SettingsFragmentNew : Fragment() {
     private fun showBatteryRestartingMessage() {
         ProtocolLogger.log("SAVE", "Battery restarting message shown, expecting disconnect in ~3s")
         Toast.makeText(requireContext(), R.string.battery_restarting, Toast.LENGTH_LONG).show()
-
-        // Update connection status after a delay (battery will disconnect)
-        handler.postDelayed({
-            if (isAdded) {
-                val isConnected = BleManager.getInstance().allConnectedDevice?.isNotEmpty() == true
-                ProtocolLogger.log("CONNECTION", "Connection status check after save: connected=$isConnected")
-                updateConnectionStatus()
-            }
-        }, 3000)
     }
 
     companion object {
+        private const val CONNECTION_CHECK_INTERVAL = 2000L
+
         @JvmStatic
         fun newInstance(): SettingsFragmentNew {
             return SettingsFragmentNew()
