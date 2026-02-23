@@ -30,6 +30,7 @@ import com.zetarapower.monitor.logic.BMSData
 import com.zetarapower.monitor.ui.adapter.CellVoltageAdapter
 import com.zetarapower.monitor.ui.adapter.CellVoltageItemDecoration
 import com.zetarapower.monitor.ui.adapter.TemperatureSensorAdapter
+import com.zetarapower.monitor.logic.SettingsProtocolData
 import com.zetarapower.monitor.ui.viewmodel.MainViewModel
 import com.zetarapower.monitor.ui.fragment.ConnectCallback
 
@@ -54,6 +55,11 @@ class MainFragmentNew : Fragment() {
     private lateinit var totalVoltageValue: TextView
     private lateinit var totalCurrentValue: TextView
     private lateinit var totalTemperatureValue: TextView
+
+    // Selected ID / CAN / RS485 Cards
+    private lateinit var selectedIdValue: TextView
+    private lateinit var selectedCanValue: TextView
+    private lateinit var selectedRs485Value: TextView
 
     // Tabs
     private lateinit var tabSummary: TextView
@@ -119,6 +125,11 @@ class MainFragmentNew : Fragment() {
         totalVoltageValue = root.findViewById(R.id.total_voltage_value)
         totalCurrentValue = root.findViewById(R.id.total_current_value)
         totalTemperatureValue = root.findViewById(R.id.total_temperature_value)
+
+        // Selected ID / CAN / RS485 Cards
+        selectedIdValue = root.findViewById(R.id.selected_id_value)
+        selectedCanValue = root.findViewById(R.id.selected_can_value)
+        selectedRs485Value = root.findViewById(R.id.selected_rs485_value)
 
         // Tabs
         tabSummary = root.findViewById(R.id.tab_summary)
@@ -219,6 +230,7 @@ class MainFragmentNew : Fragment() {
             setConnectCallback(object : ConnectCallback {
                 override fun onConnected(bleDevice: BleDevice, uuid: ZetaraBleUUID?) {
                     mainViewModel?.getBMSData(bleDevice, uuid)
+                    (activity as? MainActivity)?.getSettingData(delayTime = 2000L)
                 }
 
                 override fun onDisconnected(bleDevice: BleDevice) {
@@ -303,6 +315,29 @@ class MainFragmentNew : Fragment() {
         // Имя подключенного устройства
         mainViewModel?.connectedDeviceName?.observe(viewLifecycleOwner, Observer<String> { name ->
             bluetoothDeviceName.text = name?.toString() ?: "Tap to Connect"
+        })
+
+        // Selected ID
+        mainViewModel?.selectedId?.observe(viewLifecycleOwner, Observer<Int> { id ->
+            selectedIdValue.text = if (id == null || id == -1) "--" else "ID$id"
+        })
+
+        // Selected CAN
+        mainViewModel?.canData?.observe(viewLifecycleOwner, Observer<SettingsProtocolData?> { data ->
+            if (data != null && data.selectedIndex >= 0 && data.selectedIndex < data.protocolArray.size) {
+                selectedCanValue.text = data.protocolArray[data.selectedIndex]
+            } else {
+                selectedCanValue.text = "--"
+            }
+        })
+
+        // Selected RS485
+        mainViewModel?.rs485Protocol?.observe(viewLifecycleOwner, Observer<SettingsProtocolData?> { data ->
+            if (data != null && data.selectedIndex >= 0 && data.selectedIndex < data.protocolArray.size) {
+                selectedRs485Value.text = data.protocolArray[data.selectedIndex]
+            } else {
+                selectedRs485Value.text = "--"
+            }
         })
     }
 
