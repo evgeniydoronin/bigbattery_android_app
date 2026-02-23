@@ -32,6 +32,7 @@ import com.clj.fastble.BleManager
 import com.zetarapower.monitor.MainActivity
 import com.zetarapower.monitor.R
 import com.zetarapower.monitor.logic.SettingsProtocolData
+import com.zetarapower.monitor.diagnostics.ProtocolLogger
 import com.zetarapower.monitor.ui.viewmodel.MainViewModel
 import com.zetarapower.monitor.utils.dp2px
 import com.zetarapower.monitor.utils.getAppVersionName
@@ -85,6 +86,25 @@ class SettingsFragmentNew : Fragment() {
     private var currentRS485Index: Int? = null
 
     private val handler = Handler(Looper.getMainLooper())
+    private var lastConnectionState: Boolean? = null
+
+    private val connectionCheckRunnable = object : Runnable {
+        override fun run() {
+            if (isAdded) {
+                val isConnected = BleManager.getInstance().allConnectedDevice?.isNotEmpty() == true
+                if (isConnected != lastConnectionState) {
+                    lastConnectionState = isConnected
+                    ProtocolLogger.log("CONNECTION", "Settings screen connection status update: connected=$isConnected")
+                    if (isConnected) {
+                        showConnectedStatus()
+                    } else {
+                        showDisconnectedStatus()
+                    }
+                }
+                handler.postDelayed(this, CONNECTION_CHECK_INTERVAL)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,8 +170,9 @@ class SettingsFragmentNew : Fragment() {
             showSaveConfirmationDialog()
         }
 
-        // Update connection status
+        // Start periodic connection status check
         updateConnectionStatus()
+        handler.postDelayed(connectionCheckRunnable, CONNECTION_CHECK_INTERVAL)
     }
 
     /**
@@ -322,6 +343,7 @@ class SettingsFragmentNew : Fragment() {
                 pendingModuleIdIndex = position
                 selectedIdText.text = "ID$newModuleId"
                 showStatusLabel(moduleIdStatusLabel, "ID$newModuleId")
+                ProtocolLogger.log("UI_SELECT", "Module ID selected: ID$newModuleId (index=$position)")
 
                 // Update CAN/RS485 availability based on new pending value
                 updateCANRS485Availability(newModuleId)
@@ -367,6 +389,7 @@ class SettingsFragmentNew : Fragment() {
                 val protocolName = mainViewModel?.canData?.value?.protocolArray?.getOrNull(position) ?: "CAN $position"
                 selectedCANText.text = protocolName
                 showStatusLabel(canStatusLabel, protocolName)
+                ProtocolLogger.log("UI_SELECT", "CAN Protocol selected: $protocolName (index=$position)")
                 activateSaveButton()
                 mCANPopWindow?.dismiss()
             }
@@ -400,6 +423,7 @@ class SettingsFragmentNew : Fragment() {
                 val protocolName = mainViewModel?.rs485Protocol?.value?.protocolArray?.getOrNull(position) ?: "RS485 $position"
                 selectedRS485Text.text = protocolName
                 showStatusLabel(rs485StatusLabel, protocolName)
+                ProtocolLogger.log("UI_SELECT", "RS485 Protocol selected: $protocolName (index=$position)")
                 activateSaveButton()
                 mRS485PopWindow?.dismiss()
             }
@@ -424,6 +448,8 @@ class SettingsFragmentNew : Fragment() {
      */
     private fun updateConnectionStatus() {
         val isConnected = BleManager.getInstance().allConnectedDevice?.isNotEmpty() == true
+        lastConnectionState = isConnected
+        ProtocolLogger.log("CONNECTION", "Settings screen connection status update: connected=$isConnected")
         if (isConnected) {
             showConnectedStatus()
         } else {
@@ -520,13 +546,19 @@ class SettingsFragmentNew : Fragment() {
      * Показать диалог подтверждения сохранения
      */
     private fun showSaveConfirmationDialog() {
+        ProtocolLogger.log("UI_ACTION", "Save button tapped, showing confirmation dialog")
+        ProtocolLogger.log("UI_ACTION", "Pending changes: moduleId=${pendingModuleIdIndex?.let { it + 1 }}, CAN=$pendingCANIndex, RS485=$pendingRS485Index")
+
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.save_dialog_title)
             .setMessage(R.string.save_dialog_message)
             .setPositiveButton(R.string.save_dialog_confirm) { _, _ ->
+                ProtocolLogger.log("UI_ACTION", "User confirmed save in dialog")
                 performSave()
             }
-            .setNegativeButton(R.string.save_dialog_cancel, null)
+            .setNegativeButton(R.string.save_dialog_cancel) { _, _ ->
+                ProtocolLogger.log("UI_ACTION", "User cancelled save in dialog")
+            }
             .show()
     }
 
@@ -534,11 +566,16 @@ class SettingsFragmentNew : Fragment() {
      * Выполнить сохранение pending изменений
      */
     private fun performSave() {
+        ProtocolLogger.log("SAVE", "performSave() started")
+
         val device = BleManager.getInstance().allConnectedDevice?.firstOrNull()
         if (device == null) {
+            ProtocolLogger.log("SAVE_ERROR", "No connected device, cannot save")
             Toast.makeText(requireContext(), R.string.connection_disconnected, Toast.LENGTH_SHORT).show()
             return
         }
+
+        ProtocolLogger.log("SAVE", "Device connected: ${device.name}, sending changes...")
 
         // Hide all status labels
         hideAllStatusLabels()
@@ -548,19 +585,23 @@ class SettingsFragmentNew : Fragment() {
 
         // Send pending changes
         pendingModuleIdIndex?.let { index ->
+            ProtocolLogger.log("SAVE", "Sending Module ID change: ${index + 1}")
             mainViewModel?.setBMSModuleIdData(device, null, index + 1)
         }
 
         pendingCANIndex?.let { index ->
+            ProtocolLogger.log("SAVE", "Sending CAN Protocol change: index=$index")
             mainViewModel?.setCanData(device, null, index)
         }
 
         pendingRS485Index?.let { index ->
+            ProtocolLogger.log("SAVE", "Sending RS485 Protocol change: index=$index")
             mainViewModel?.setRS485Data(device, null, index)
         }
 
         // Clear pending changes
         clearPendingChanges()
+        ProtocolLogger.log("SAVE", "Pending changes cleared, Save button deactivated")
 
         // Deactivate Save button
         deactivateSaveButton()
@@ -582,17 +623,13 @@ class SettingsFragmentNew : Fragment() {
      * Показать сообщение о перезагрузке батареи
      */
     private fun showBatteryRestartingMessage() {
+        ProtocolLogger.log("SAVE", "Battery restarting message shown, expecting disconnect in ~3s")
         Toast.makeText(requireContext(), R.string.battery_restarting, Toast.LENGTH_LONG).show()
-
-        // Update connection status after a delay (battery will disconnect)
-        handler.postDelayed({
-            if (isAdded) {
-                updateConnectionStatus()
-            }
-        }, 3000)
     }
 
     companion object {
+        private const val CONNECTION_CHECK_INTERVAL = 2000L
+
         @JvmStatic
         fun newInstance(): SettingsFragmentNew {
             return SettingsFragmentNew()

@@ -1,0 +1,398 @@
+{
+  "deviceInfo": {
+    "model": "Pixel 6a",
+    "manufacturer": "Google",
+    "systemName": "Android",
+    "systemVersion": "16",
+    "sdkVersion": 36,
+    "name": "bluejay",
+    "product": "bluejay"
+  },
+  "appInfo": {
+    "version": "3.0.7",
+    "build": "19",
+    "packageName": "com.zetarapower.monitor.bl"
+  },
+  "batteryInfo": {
+    "timestamp": "11:52:48 10.02.2026",
+    "voltage": 53.27,
+    "current": 0,
+    "soc": 79,
+    "soh": 100,
+    "status": "0",
+    "cellCount": 16,
+    "cellVoltages": [
+      3.328,
+      3.33,
+      3.329,
+      3.33,
+      3.329,
+      3.33,
+      3.329,
+      3.33,
+      3.329,
+      3.33,
+      3.329,
+      3.33,
+      3.329,
+      3.33,
+      3.329,
+      3.329
+    ],
+    "cellTemps": [
+      22,
+      23,
+      22,
+      22
+    ],
+    "tempPCB": 23,
+    "tempEnv": 23
+  },
+  "extendedBatteryInfo": {
+    "cellVoltageMin": 3.328,
+    "cellVoltageMax": 3.33,
+    "cellVoltageAverage": 3.329375,
+    "cellVoltageDelta": 0.001999855,
+    "cellVoltageStdDev": 5.994354906312688E-4,
+    "tempMin": 22,
+    "tempMax": 23,
+    "tempDelta": 1,
+    "protectionStatus": {
+      "overvoltage": false,
+      "undervoltage": false,
+      "overcurrent": false,
+      "overtemperature": false,
+      "shortCircuit": false
+    }
+  },
+  "protocolInfo": {
+    "currentValues": {
+      "moduleId": "ID1",
+      "canProtocol": "P02-SLK",
+      "rs485Protocol": "P03-SCH"
+    },
+    "recentLogs": [
+      {
+        "timestamp": "11:51:01 10.02.2026",
+        "type": "CONNECTION",
+        "message": "Settings screen connection status update: connected=false"
+      },
+      {
+        "timestamp": "11:51:00 10.02.2026",
+        "type": "CONNECTION",
+        "message": "DISCONNECTED: BB-51.2V100Ah-0855, reason: connection lost, status: 8"
+      },
+      {
+        "timestamp": "11:49:40 10.02.2026",
+        "type": "SKIP",
+        "message": "RS485 already loaded"
+      },
+      {
+        "timestamp": "11:49:39 10.02.2026",
+        "type": "SKIP",
+        "message": "CAN already loaded"
+      },
+      {
+        "timestamp": "11:49:39 10.02.2026",
+        "type": "SKIP",
+        "message": "Module ID already loaded: 1"
+      },
+      {
+        "timestamp": "11:49:39 10.02.2026",
+        "type": "REQUEST",
+        "message": "getSettingData finished scheduling, final delay=1200"
+      },
+      {
+        "timestamp": "11:49:39 10.02.2026",
+        "type": "REQUEST",
+        "message": "RS485 request scheduled, delay=1200"
+      },
+      {
+        "timestamp": "11:49:39 10.02.2026",
+        "type": "REQUEST",
+        "message": "CAN request scheduled, delay=600"
+      },
+      {
+        "timestamp": "11:49:39 10.02.2026",
+        "type": "REQUEST",
+        "message": "Module ID request scheduled, delay=0"
+      },
+      {
+        "timestamp": "11:49:39 10.02.2026",
+        "type": "STATE",
+        "message": "selectedId=1, canData=SettingsProtocolData(selectedIndex=1, protocolArray=[P01-GRW, P02-SLK, P03-DY, P04-MGR, P05-VCT, P06-LUX, P07-SMA, P08-INH, P09-SOL, P10-AFO, P11-STU]), rs485=SettingsProtocolData(selectedIndex=2, protocolArray=[P01-GRW, P02-LUX, P03-SCH, P04-INH, P05-VOL])"
+      },
+      {
+        "timestamp": "11:49:39 10.02.2026",
+        "type": "REQUEST",
+        "message": "getSettingData called, initial delay=0"
+      },
+      {
+        "timestamp": "11:49:39 10.02.2026",
+        "type": "CONNECTION",
+        "message": "Settings screen connection status update: connected=true"
+      },
+      {
+        "timestamp": "11:49:38 10.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "11:49:38 10.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cf00000d000d020d010d020d010d020d010d020d010d020d010d020d010d020d010d01001700140017004f00640064004f00000000000000000000000115752a00161716160000001003e80000f220"
+      },
+      {
+        "timestamp": "11:49:38 10.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "11:49:38 10.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "PARSE",
+        "message": "CRC OK, funCode=0x07"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "PARSE",
+        "message": "handleSettingsData: 10070100b4b5"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "RESPONSE",
+        "message": "Settings data (addr=0x10)"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 10070100b4b5"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 100701017575"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "SAVE",
+        "message": "Battery restarting message shown, expecting disconnect in ~3s"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "SAVE",
+        "message": "Pending changes cleared, Save button deactivated"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 100701017575"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "SAVE",
+        "message": "Sending Module ID change: 1"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "SAVE",
+        "message": "Device connected: BB-51.2V100Ah-0855, sending changes..."
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "SAVE",
+        "message": "performSave() started"
+      },
+      {
+        "timestamp": "11:49:25 10.02.2026",
+        "type": "UI_ACTION",
+        "message": "User confirmed save in dialog"
+      },
+      {
+        "timestamp": "11:49:24 10.02.2026",
+        "type": "UI_ACTION",
+        "message": "Pending changes: moduleId=1, CAN=null, RS485=null"
+      },
+      {
+        "timestamp": "11:49:24 10.02.2026",
+        "type": "UI_ACTION",
+        "message": "Save button tapped, showing confirmation dialog"
+      },
+      {
+        "timestamp": "11:49:22 10.02.2026",
+        "type": "UI_SELECT",
+        "message": "Module ID selected: ID1 (index=0)"
+      },
+      {
+        "timestamp": "11:49:19 10.02.2026",
+        "type": "UI_SELECT",
+        "message": "Module ID selected: ID2 (index=1)"
+      },
+      {
+        "timestamp": "11:49:17 10.02.2026",
+        "type": "UI_SELECT",
+        "message": "RS485 Protocol selected: P04-INH (index=3)"
+      },
+      {
+        "timestamp": "11:49:15 10.02.2026",
+        "type": "UI_SELECT",
+        "message": "CAN Protocol selected: P03-DY (index=2)"
+      },
+      {
+        "timestamp": "11:49:10 10.02.2026",
+        "type": "SUCCESS",
+        "message": "RS485 LiveData updated: selectedIndex=2"
+      },
+      {
+        "timestamp": "11:49:10 10.02.2026",
+        "type": "PARSE",
+        "message": "RS485 protocols: [P01-GRW, P02-LUX, P03-SCH, P04-INH, P05-VOL]"
+      },
+      {
+        "timestamp": "11:49:10 10.02.2026",
+        "type": "PARSE",
+        "message": "CRC OK, funCode=0x03"
+      },
+      {
+        "timestamp": "11:49:10 10.02.2026",
+        "type": "PARSE",
+        "message": "handleSettingsData: 10033402055030312d4752570000005030322d4c55580000005030332d5343480000005030342d494e480000005030352d564f4c000000a7ab"
+      },
+      {
+        "timestamp": "11:49:10 10.02.2026",
+        "type": "RESPONSE",
+        "message": "Settings data (addr=0x10)"
+      },
+      {
+        "timestamp": "11:49:10 10.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 10033402055030312d4752570000005030322d4c55580000005030332d5343480000005030342d494e480000005030352d564f4c000000a7ab"
+      },
+      {
+        "timestamp": "11:49:10 10.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 10030070F5"
+      },
+      {
+        "timestamp": "11:49:10 10.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 10030070F5"
+      },
+      {
+        "timestamp": "11:49:10 10.02.2026",
+        "type": "REQUEST",
+        "message": "Sending RS485 request NOW"
+      },
+      {
+        "timestamp": "11:49:09 10.02.2026",
+        "type": "SUCCESS",
+        "message": "CAN LiveData updated: selectedIndex=1"
+      },
+      {
+        "timestamp": "11:49:09 10.02.2026",
+        "type": "PARSE",
+        "message": "CAN protocols: [P01-GRW, P02-SLK, P03-DY, P04-MGR, P05-VCT, P06-LUX, P07-SMA, P08-INH, P09-SOL, P10-AFO, P11-STU]"
+      },
+      {
+        "timestamp": "11:49:09 10.02.2026",
+        "type": "PARSE",
+        "message": "CRC OK, funCode=0x04"
+      },
+      {
+        "timestamp": "11:49:09 10.02.2026",
+        "type": "PARSE",
+        "message": "handleSettingsData: 100470010b5030312d4752570000005030322d534c4b0000005030332d4459000000005030342d4d47520000005030352d5643540000005030362d4c55580000005030372d534d410000005030382d494e480000005030392d534f4c0000005031302d41464f0000005031312d535455000000f05e"
+      },
+      {
+        "timestamp": "11:49:09 10.02.2026",
+        "type": "RESPONSE",
+        "message": "Settings data (addr=0x10)"
+      },
+      {
+        "timestamp": "11:49:09 10.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 100470010b5030312d4752570000005030322d534c4b0000005030332d4459000000005030342d4d47520000005030352d5643540000005030362d4c55580000005030372d534d410000005030382d494e480000005030392d534f4c0000005031302d41464f0000005031312d535455000000f05e"
+      },
+      {
+        "timestamp": "11:49:09 10.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 10040072C5"
+      }
+    ],
+    "statistics": {
+      "totalLogs": 50,
+      "errors": 0,
+      "successes": 17,
+      "warnings": 3
+    },
+    "lastUpdateTime": "11:52:48 10.02.2026"
+  },
+  "bluetoothInfo": {
+    "connectionAttempts": 0,
+    "state": "disconnected",
+    "adapterState": "poweredOn"
+  },
+  "connectionProcessInfo": {
+    "steps": [
+      {
+        "timestamp": "11:52:47 10.02.2026",
+        "step": "connection",
+        "status": "success",
+        "message": "No device connected"
+      },
+      {
+        "timestamp": "11:52:47 10.02.2026",
+        "step": "connection",
+        "status": "success",
+        "message": "Diagnostics screen launched"
+      }
+    ]
+  },
+  "rawDataInfo": {
+    "lastReceivedPacket": "4255147B000000000000004F4054FDF440551EB840550E5640551EB840550E5640551EB840550E5640551EB840550E5640551EB840550E5640551EB840550E5640551EB840550E5640550E56",
+    "packetHistory": [
+      {
+        "timestamp": "11:52:48 10.02.2026",
+        "data": "4255147B000000000000004F4054FDF440551EB840550E5640551EB840550E5640551EB840550E5640551EB840550E5640551EB840550E5640551EB840550E5640551EB840550E5640550E56",
+        "parseResult": "success"
+      }
+    ],
+    "parseErrors": []
+  },
+  "communicationErrorsInfo": {
+    "timeouts": 0,
+    "crcErrors": 0,
+    "packetLoss": 0,
+    "retries": 0
+  },
+  "systemInfo": {
+    "isLowPowerMode": false,
+    "availableMemory": 268435456,
+    "freeMemory": 19508016,
+    "totalMemory": 29623232,
+    "cpuUsage": 0,
+    "batteryLevel": 11
+  },
+  "events": [
+    {
+      "timestamp": "11:52:47 10.02.2026",
+      "type": "Connection",
+      "message": "No device connected"
+    },
+    {
+      "timestamp": "11:52:47 10.02.2026",
+      "type": "Data Update",
+      "message": "New battery data received"
+    },
+    {
+      "timestamp": "11:52:47 10.02.2026",
+      "type": "Connection",
+      "message": "Diagnostics screen launched"
+    }
+  ],
+  "timestamp": "11:52:48 10.02.2026"
+}

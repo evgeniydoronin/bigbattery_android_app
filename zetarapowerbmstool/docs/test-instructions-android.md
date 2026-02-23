@@ -37,9 +37,9 @@ Fill in after each test. Mark PASS or FAIL.
 
 | # | Test | PASS / FAIL | Module ID | CAN | RS485 | Notes |
 |---|------|-------------|-----------|-----|-------|-------|
-| 1 | Connect + Open Settings | | | | | |
-| 2 | Settings Screen UI | | | | | |
-| 3 | Protocol Data Loading | | | | | |
+| 1 | Connect + Open Settings | ✅ PASS | ID1 | P01-GRW | P01-GRW | INV battery (BB-51.2V100Ah-0855) |
+| 2 | Settings Screen UI | ✅ PASS | — | — | — | Visual check — passed with Test 1 |
+| 3 | Protocol Data Loading | ✅ PASS | ID1 | P01-GRW | P01-GRW | Data loaded, no "--" |
 | 4 | Protocol Change + Save | | | | | |
 | 5 | Mid-Session Reconnect → Settings | | | | | |
 | 6 | Cross-Session Reconnect → Settings | | | | | |

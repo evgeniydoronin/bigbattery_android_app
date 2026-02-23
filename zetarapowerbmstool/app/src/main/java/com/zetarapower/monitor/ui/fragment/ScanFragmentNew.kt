@@ -44,6 +44,7 @@ import com.zetarapower.monitor.app.PowerMonitorApp
 import com.zetarapower.monitor.bluetooth.BleUUIDs
 import com.zetarapower.monitor.bluetooth.ZetaraBleUUID
 import com.zetarapower.monitor.logic.PowerMonitorBlueTooth
+import com.zetarapower.monitor.diagnostics.ProtocolLogger
 import com.zetarapower.monitor.utils.showToast
 import java.util.*
 
@@ -279,6 +280,7 @@ class ScanFragmentNew : DialogFragment() {
             }
             
             override fun onConnectFail(bleDevice: BleDevice, exception: BleException) {
+                ProtocolLogger.log("CONNECTION", "Connect FAILED: ${bleDevice.name ?: bleDevice.mac}, error: ${exception.description}")
                 isConnecting = false
                 imgLoading.clearAnimation()
                 imgLoading.visibility = View.INVISIBLE
@@ -292,6 +294,7 @@ class ScanFragmentNew : DialogFragment() {
                 gatt: BluetoothGatt,
                 status: Int
             ) {
+                ProtocolLogger.log("CONNECTION", "Connect SUCCESS: ${bleDevice.name ?: bleDevice.mac}")
                 isConnecting = false
                 showToast(R.string.connected)
                 checkZetaraBleDevice(bleDevice, gatt)
@@ -303,6 +306,8 @@ class ScanFragmentNew : DialogFragment() {
                 gatt: BluetoothGatt,
                 status: Int
             ) {
+                val reason = if (isActiveDisConnected) "user initiated" else "connection lost"
+                ProtocolLogger.log("CONNECTION", "DISCONNECTED: ${bleDevice.name ?: bleDevice.mac}, reason: $reason, status: $status")
                 isConnecting = false
             }
         })
