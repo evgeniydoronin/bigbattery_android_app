@@ -1,9 +1,9 @@
-# Android App Test Instructions — Settings Screen
+# Android App Test Instructions — Settings Screen & Home Screen
 
 **App:** Big Battery BMS Tool (Android)
 **Package:** `com.zetarapower.monitor.bl`
-**Scope:** Settings screen, BLE connection, Diagnostics export
-**Date:** January 2025
+**Scope:** Home screen cards, Settings screen, BLE connection, Diagnostics export
+**Date:** February 2026
 
 ---
 
@@ -19,7 +19,8 @@
 - Write it in the results table
 
 ### Key screens for this test
-- **Settings** — gear icon, shows Module ID / CAN / RS485 cards
+- **Home** — main screen, shows battery info + Selected ID / CAN / RS485 cards
+- **Settings** — gear icon, shows Module ID / CAN / RS485 cards (editable)
 - **Diagnostics** — hidden screen, has "Send Logs" button
 
 ### How to open Diagnostics (important!)
@@ -37,14 +38,12 @@ Fill in after each test. Mark PASS or FAIL.
 
 | # | Test | PASS / FAIL | Module ID | CAN | RS485 | Notes |
 |---|------|-------------|-----------|-----|-------|-------|
-| 1 | Connect + Open Settings | ✅ PASS | ID1 | P01-GRW | P01-GRW | INV battery (BB-51.2V100Ah-0855) |
-| 2 | Settings Screen UI | ✅ PASS | — | — | — | Visual check — passed with Test 1 |
-| 3 | Protocol Data Loading | ✅ PASS | ID1 | P01-GRW | P01-GRW | Data loaded, no "--" |
-| 4 | Protocol Change + Save | | | | | |
-| 5 | Mid-Session Reconnect → Settings | | | | | |
-| 6 | Cross-Session Reconnect → Settings | | | | | |
-| 7 | Settings Navigation (round trips) | | | | | |
-| 8 | Diagnostics Export | | | | | |
+| 1 | Connect + Open Settings | ✅ PASS | ID1 | P01-GRW | P01-GRW | Build 3.0.5, INV battery (BB-51.2V100Ah-0855) |
+| 2 | Settings Screen UI | ✅ PASS | — | — | — | Build 3.0.5, visual check |
+| 3 | Protocol Data Loading | ✅ PASS | ID1 | P01-GRW | P01-GRW | Build 3.0.5, no "--" |
+| 4 | Protocol Change + Save | ✅ PASS | ID1 | P02-SLK | P03-SCH | Build 3.0.6, save + restart OK |
+| 5 | Mid-Session Reconnect → Settings | 🔄 PARTIAL | ID1 | P02-SLK | P03-SCH | Build 3.0.7: banner ✅, auto-reconnect ❌ (not in scope) |
+| 6 | Home Screen Cards | ✅ PASS | ID1 | P06-LUX | P02-LUX | Build 3.0.7, battery BB-51.2V100Ah-0000 |
 
 **App Version:** _______________
 **Phone Model:** _______________
@@ -247,109 +246,55 @@ If after 10 seconds the app does NOT reconnect:
 
 ---
 
-## Test 6: Cross-Session Reconnect → Settings (IMPORTANT)
+## Test 6: Home Screen Cards (CRITICAL)
 
-**Goal:** Verify Settings data loads correctly after app kill and reopen.
+**Goal:** Verify that Selected ID, Selected CAN, and Selected RS485 cards appear on the Home screen and show correct values after connection.
 
-### Steps
+### Layout reference
 
-1. Ensure the app is connected
-2. Go to Settings, **write down** values: Module ID, CAN, RS485
-3. **Kill the app** completely:
-   - Press the Recent Apps button (square button)
-   - Swipe the app away to force close
-4. Wait 3 seconds
-5. Open the app again
-6. Connect to the module (auto or manual — note which happened)
-7. Go to Settings screen
-8. Check values: Module ID, CAN, RS485
-
-### Expected Result
-
-- App reopens without crash
-- Connection established (auto or manual)
-- Settings shows the **same** values as step 2
-- No "--" values after data loads (wait up to 3 seconds)
-
-**Note which reconnect type happened** (auto or manual) in the results table.
-
-### If FAILED
-
-1. Screenshot Settings screen
-2. Diagnostics → **Send Logs**
-3. Notes — short: `auto / manual / failed`, `Settings: ok / -- on [field]`
-
-> Same as Test 5 — logs can't distinguish auto-reconnect from manual. Also, if the app shows an error message on screen, write it down — that text doesn't end up in the logs.
-
-### Known issue (from iOS)
-In iOS builds 43-44, the saved device UUID was lost on app restart, making auto-reconnect impossible. Check if Android has the same issue.
-
----
-
-## Test 7: Settings Navigation — Round Trips (IMPORTANT)
-
-**Goal:** Verify navigating away from Settings and back preserves protocol data.
+```
+┌─────────┬─────────┬─────────┐
+│ -- V    │ -- A    │ --°F/°C │  ← existing cards
+│ Voltage │ Current │ Temp.   │
+├─────────┼─────────┼─────────┤
+│  --     │  --     │  --     │  ← new cards
+│Selected │Selected │Selected │
+│  ID     │  CAN    │ RS485   │
+└─────────┴─────────┴─────────┘
+[Summary] [Cell Voltage] [Temperature]
+```
 
 ### Steps
 
-1. Go to Settings screen
-2. **Write down** (or screenshot) the values: Module ID, CAN, RS485
-3. Go back (leave Settings screen)
-4. Wait 3 seconds
-5. Go to Settings screen again
-6. Check: Module ID, CAN, RS485 values are the same as step 2
-7. Repeat steps 3-6 **two more times** (total 3 round trips)
+1. Open the app (make sure NOT connected yet)
+2. Look at the Home screen — find the row of three cards **below** Voltage/Current/Temp
+3. Check: all three new cards show "--" (no data yet)
+4. Connect to the battery module (tap Bluetooth card → scan → tap module name)
+5. Wait up to 5 seconds for BMS data to load
+6. Wait up to 5 more seconds for settings data to load (total ~10 seconds)
+7. Check the three new cards:
+   - **Selected ID** — shows "ID1" (or "ID2"–"ID16")
+   - **Selected CAN** — shows a protocol name (e.g. "P01-GRW")
+   - **Selected RS485** — shows a protocol name (e.g. "P01-GRW")
+8. Go to **Settings** screen (gear icon)
+9. Compare: values on Home screen cards must match values on Settings screen
+10. Go back to Home screen — values should still be there (not "--")
 
 ### Expected Result
 
-- All three round trips: Settings values remain the same
-- No "--" appearing on any round trip
-- No delay longer than 3 seconds to show values
-- Values match what was noted in step 2
+- Step 3: All three cards show "--" before connection
+- Step 7: All three cards show real values (not "--")
+- Step 9: Home screen values match Settings screen values exactly
+- Step 10: Values persist after navigating back
 
 ### If FAILED
 
-1. Screenshot Settings screen the moment you see "--"
-2. Diagnostics → **Send Logs**
-3. Notes — short: `round trip #X`, `[field] showed --` or `[field] changed value`
+1. Screenshot Home screen showing the three cards
+2. Screenshot Settings screen for comparison
+3. Diagnostics → **Send Logs**
+4. Notes — short: `ID: ok/-- `, `CAN: ok/--`, `RS485: ok/--`, `match Settings: yes/no`
 
-> Logs capture protocol data once (at export time), but they won't show that values were fine on round trip 1 and broke on round trip 3. That's what your notes are for.
-
-### Known issue (from iOS)
-In iOS builds 45-47, navigating away could cancel BLE subscriptions, causing Module ID to show "--" on return. This is the race condition bug.
-
----
-
-## Test 8: Diagnostics Export (IMPORTANT)
-
-**Goal:** Verify the Diagnostics screen works and logs can be sent.
-
-### Steps
-
-1. Go to the **Diagnostics** screen
-2. Check: the screen shows a list of events (connection, data updates, etc.)
-3. Scroll through the list — events should have timestamps
-4. Tap the **Send Logs** button
-5. An email compose screen should open with:
-   - **Recipient:** pre-filled email address
-   - **Subject:** pre-filled subject line
-   - **Attachment:** JSON file (named `bigbattery_logs_android_YYYYMMDD_HHMMSS.json`)
-6. Send the email
-
-### Expected Result
-
-- Step 2: Events list is visible and not empty
-- Step 4-5: Email compose opens with attachment
-- Step 6: Email sends successfully
-- The JSON file contains diagnostic data (device info, battery info, protocol info, events)
-
-### If FAILED
-
-1. Screenshot the Diagnostics screen
-2. Screenshot the error (if any)
-3. Notes — short: `no events / email won't open / send error`
-
-> If email won't open at all — most likely no email app is configured on the phone. That's a setup issue, not a bug.
+> Cards load ~2 seconds after BMS data. If you see "--" briefly and then values appear, that is normal. Only mark FAIL if values stay "--" after 10 seconds.
 
 ---
 
@@ -376,6 +321,13 @@ In iOS builds 45-47, navigating away could cancel BLE subscriptions, causing Mod
 
 ### Screen navigation
 ```
+Home screen
+  ├── Bluetooth card (tap to connect)
+  ├── Battery progress circle (SOC %)
+  ├── Voltage / Current / Temp cards
+  ├── Selected ID / Selected CAN / Selected RS485 cards
+  └── Tabs: Summary | Cell Voltage | Temperature
+
 Settings screen
   ├── Connection Status Banner (top — green/red)
   ├── Note Label (description text)
@@ -566,94 +518,51 @@ When you tap Save in Settings, the battery module restarts. This is **normal beh
 
 ---
 
-### Тест 6: Переподключение после перезапуска → Settings (IMPORTANT)
+### Тест 6: Карточки на главном экране (CRITICAL)
 
-**Цель:** Проверить, что данные Settings загружаются после полного закрытия и открытия приложения.
+**Цель:** Проверить, что карточки Selected ID, Selected CAN, Selected RS485 отображаются на главном экране и показывают правильные значения после подключения.
 
-1. Убедиться, что приложение подключено
-2. На Settings **записать** значения: Module ID, CAN, RS485
-3. **Убить приложение** полностью:
-   - Нажать кнопку "Последние приложения" (квадрат)
-   - Смахнуть приложение для принудительного закрытия
-4. Подождать 3 секунды
-5. Открыть приложение заново
-6. Подключиться к модулю (авто или вручную — записать какой вариант)
-7. Перейти на экран Settings
-8. Проверить значения: Module ID, CAN, RS485
+**Расположение на экране:**
 
-**Ожидаемый результат:**
-- Приложение открывается без краша
-- Подключение установлено (авто или вручную)
-- Settings показывает **те же** значения, что записаны в шаге 2
-- Нет "--" после загрузки (подождать до 3 секунд)
+```
+┌─────────┬─────────┬─────────┐
+│ -- V    │ -- A    │ --°F/°C │  ← существующие
+│ Voltage │ Current │ Temp.   │
+├─────────┼─────────┼─────────┤
+│  --     │  --     │  --     │  ← новые
+│Selected │Selected │Selected │
+│  ID     │  CAN    │ RS485   │
+└─────────┴─────────┴─────────┘
+[Summary] [Cell Voltage] [Temperature]
+```
 
-**Записать** какой тип реконнекта произошёл (авто или ручной).
-
-**Известная проблема (из iOS):** В iOS builds 43-44 UUID устройства терялся при перезапуске — авто-реконнект не работал. Проверить есть ли та же проблема на Android.
-
-**Если не прошёл:**
-1. Скриншот Settings
-2. Diagnostics → **Send Logs**
-3. Заметка: `авто / вручную / не подключился`, `Settings: ок / -- на [поле]`
-
-> То же, что в тесте 5 — логи не отличат авто-реконнект от ручного. Если на экране появилось сообщение об ошибке — запишите текст, он в логи не попадает.
-
----
-
-### Тест 7: Навигация Settings — туда-обратно (IMPORTANT)
-
-**Цель:** Проверить, что переход с Settings и обратно сохраняет данные протоколов.
-
-1. Перейти на экран Settings
-2. **Записать** (или скриншот) значения: Module ID, CAN, RS485
-3. Уйти с экрана Settings (нажать назад)
-4. Подождать 3 секунды
-5. Вернуться на экран Settings
-6. Проверить: Module ID, CAN, RS485 — те же значения, что в шаге 2
-7. Повторить шаги 3-6 **ещё два раза** (всего 3 цикла)
+1. Открыть приложение (убедиться что НЕ подключены)
+2. На главном экране найти ряд из трёх карточек **под** Voltage/Current/Temp
+3. Проверить: все три новые карточки показывают "--" (нет данных)
+4. Подключиться к модулю батареи (нажать Bluetooth → скан → нажать на имя модуля)
+5. Подождать до 5 секунд загрузки BMS данных
+6. Подождать ещё до 5 секунд загрузки settings данных (всего ~10 секунд)
+7. Проверить три новые карточки:
+   - **Selected ID** — показывает "ID1" (или "ID2"–"ID16")
+   - **Selected CAN** — показывает название протокола (например "P01-GRW")
+   - **Selected RS485** — показывает название протокола (например "P01-GRW")
+8. Перейти на экран **Settings** (иконка шестерёнки)
+9. Сравнить: значения на карточках Home screen должны совпадать со значениями на Settings
+10. Вернуться на Home screen — значения должны остаться (не "--")
 
 **Ожидаемый результат:**
-- Все три цикла: значения Settings остаются прежними
-- Нигде не появляется "--"
-- Задержка загрузки не более 3 секунд
-- Значения совпадают с записанными в шаге 2
-
-**Известная проблема (из iOS):** В iOS builds 45-47 переход с экрана мог отменить BLE-подписки, из-за чего Module ID показывал "--" при возврате. Это баг race condition.
+- Шаг 3: все три карточки показывают "--" до подключения
+- Шаг 7: все три карточки показывают реальные значения (не "--")
+- Шаг 9: значения Home screen совпадают с Settings
+- Шаг 10: значения сохраняются после навигации обратно
 
 **Если не прошёл:**
-1. Скриншот Settings в момент появления "--"
-2. Diagnostics → **Send Logs**
-3. Заметка: `цикл #X`, `[поле] показало --` или `[поле] изменило значение`
+1. Скриншот Home screen с тремя карточками
+2. Скриншот Settings для сравнения
+3. Diagnostics → **Send Logs**
+4. Заметка: `ID: ок/--`, `CAN: ок/--`, `RS485: ок/--`, `совпадают с Settings: да/нет`
 
-> Логи фиксируют данные один раз (в момент экспорта), но не расскажут, что на 1-м цикле всё было нормально, а на 3-м сломалось. Для этого и нужна ваша заметка.
-
----
-
-### Тест 8: Экспорт диагностики (IMPORTANT)
-
-**Цель:** Проверить, что экран Diagnostics работает и логи можно отправить.
-
-1. Перейти на экран **Diagnostics**
-2. Проверить: на экране отображается список событий (подключения, обновления данных и т.д.)
-3. Пролистать список — у событий должны быть временные метки
-4. Нажать кнопку **Send Logs**
-5. Должен открыться экран создания email с:
-   - **Получатель:** предзаполненный email
-   - **Тема:** предзаполненная тема
-   - **Вложение:** JSON-файл (имя `bigbattery_logs_android_YYYYMMDD_HHMMSS.json`)
-6. Отправить email
-
-**Ожидаемый результат:**
-- Список событий виден и не пуст
-- Email открывается с вложением
-- Email отправляется успешно
-
-**Если не прошёл:**
-1. Скриншот Diagnostics
-2. Скриншот ошибки (если есть)
-3. Заметка: `нет событий / email не открывается / ошибка отправки`
-
-> Если email вообще не открывается — скорее всего на телефоне не настроена почта. Это не баг приложения, а вопрос настройки телефона.
+> Карточки загружаются ~2 секунды после BMS данных. Если "--" мелькнуло на секунду и потом появились значения — это нормально. Отмечать FAIL только если "--" остаётся дольше 10 секунд.
 
 ---
 

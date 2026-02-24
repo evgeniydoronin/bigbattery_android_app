@@ -30,6 +30,32 @@
 
 ## Timeline
 
+### Test 2026-02-23 (Build 3.0.7) — Home Screen Cards
+
+**Tester:** Kunj
+**Device:** Google Pixel 6a, Android 16
+**Battery:** BB-51.2V100Ah-0000 (новый модуль)
+**Result:** ✅ PASS (Test 9: Home Screen Cards)
+
+**Logs:** `docs/logs/bigbattery_logs_android_20260223_122207.json`
+
+**Что проверялось:**
+- Карточки Selected ID / CAN / RS485 на главном экране (Home screen)
+- Загрузка данных при подключении через `getSettingData(delayTime=2000L)`
+
+**Результат:**
+- Module ID: ID1 ✅
+- CAN Protocol: P06-LUX (selectedIndex=5) ✅
+- RS485 Protocol: P02-LUX (selectedIndex=1) ✅
+- BMS: 53.23V, 0A, SOC 99%, 16 ячеек 3.326–3.328V ✅
+- Errors: 0, CRC errors: 0, timeouts: 0 ✅
+
+**Важно:**
+- Тестировалось на новом модуле (0000 вместо 0855) — подтверждает работу на разных батареях
+- Данные протоколов уже загружены при открытии Settings (SKIP в логах) — значит Home screen загрузка работает
+
+---
+
 ### Test 2026-02-10 (Build 3.0.7) — Settings Banner Fix
 
 **Tester:** Kunj
@@ -127,9 +153,10 @@
 | Метрика | Build 3.0.2 | Build 3.0.5 | Build 3.0.6 | Build 3.0.7 |
 |---------|-------------|-------------|-------------|-------------|
 | Module ID загружается | ? | ✅ ID1 | ✅ ID1 | ✅ ID1 |
-| CAN Protocol загружается | ❌ | ✅ P01-GRW | ✅ P02-SLK | ✅ P02-SLK |
-| RS485 Protocol загружается | ? | ✅ P01-GRW | ✅ P03-SCH | ✅ P03-SCH |
+| CAN Protocol загружается | ❌ | ✅ P01-GRW | ✅ P02-SLK | ✅ P06-LUX |
+| RS485 Protocol загружается | ? | ✅ P01-GRW | ✅ P03-SCH | ✅ P02-LUX |
 | Баннер real-time update | — | — | ❌ | ✅ |
+| Home screen карточки | — | — | — | ✅ |
 | Auto-reconnect на Settings | — | — | ❌ | ❌ (not in scope) |
 
 ---
@@ -146,6 +173,7 @@
 
 | Дата | Build | Battery | Файл |
 |------|-------|---------|------|
+| 2026-02-23 | 3.0.7 | BB-51.2V100Ah-0000 | `docs/logs/bigbattery_logs_android_20260223_122207.json` |
 | 2026-02-10 | 3.0.7 | INV (BB-51.2V100Ah-0855) | `docs/logs/bigbattery_logs_android_20260210_115248.json` |
 | 2026-02-02 | 3.0.6 | INV (BB-51.2V100Ah-0855) | `docs/logs/bigbattery_logs_android_20260202_152723.json` |
 | 2026-02-02 | 3.0.6 | INV (BB-51.2V100Ah-0855) | `docs/logs/bigbattery_logs_android_20260202_152917.json` |

@@ -1,0 +1,400 @@
+{
+  "deviceInfo": {
+    "model": "Pixel 6a",
+    "manufacturer": "Google",
+    "systemName": "Android",
+    "systemVersion": "16",
+    "sdkVersion": 36,
+    "name": "bluejay",
+    "product": "bluejay"
+  },
+  "appInfo": {
+    "version": "3.0.7",
+    "build": "19",
+    "packageName": "com.zetarapower.monitor.bl"
+  },
+  "batteryInfo": {
+    "timestamp": "12:22:07 23.02.2026",
+    "voltage": 53.23,
+    "current": 0,
+    "soc": 99,
+    "soh": 100,
+    "status": "0",
+    "cellCount": 16,
+    "cellVoltages": [
+      3.326,
+      3.328,
+      3.326,
+      3.328,
+      3.327,
+      3.328,
+      3.327,
+      3.328,
+      3.327,
+      3.328,
+      3.327,
+      3.328,
+      3.327,
+      3.328,
+      3.326,
+      3.327
+    ],
+    "cellTemps": [
+      20,
+      20,
+      20,
+      20
+    ],
+    "tempPCB": 20,
+    "tempEnv": 20
+  },
+  "extendedBatteryInfo": {
+    "cellVoltageMin": 3.326,
+    "cellVoltageMax": 3.328,
+    "cellVoltageAverage": 3.32725,
+    "cellVoltageDelta": 0.0020000935,
+    "cellVoltageStdDev": 7.500499438076657E-4,
+    "tempMin": 20,
+    "tempMax": 20,
+    "tempDelta": 0,
+    "protectionStatus": {
+      "overvoltage": false,
+      "undervoltage": false,
+      "overcurrent": false,
+      "overtemperature": false,
+      "shortCircuit": false
+    }
+  },
+  "protocolInfo": {
+    "currentValues": {
+      "moduleId": "ID1",
+      "canProtocol": "P06-LUX",
+      "rs485Protocol": "P02-LUX"
+    },
+    "recentLogs": [
+      {
+        "timestamp": "12:22:07 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:22:07 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:22:06 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:22:06 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:22:06 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:22:06 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:53 23.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "12:21:53 23.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cb00000cfe0d000cfe0d000cff0d000cff0d000cff0d000cff0d000cff0d000cfe0cff001400130014006300640064006300000000000000000000000215752a00141414140000001003e800006b0e"
+      },
+      {
+        "timestamp": "12:21:53 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:53 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:52 23.02.2026",
+        "type": "SKIP",
+        "message": "RS485 already loaded"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "SKIP",
+        "message": "CAN already loaded"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cb00000cfe0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0cff001400140014006300640064006300000000000000000000000215752a00141414140000001003e80000c90b"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "SKIP",
+        "message": "Module ID already loaded: 1"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "REQUEST",
+        "message": "getSettingData finished scheduling, final delay=1200"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "REQUEST",
+        "message": "RS485 request scheduled, delay=1200"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "REQUEST",
+        "message": "CAN request scheduled, delay=600"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "REQUEST",
+        "message": "Module ID request scheduled, delay=0"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "STATE",
+        "message": "selectedId=1, canData=SettingsProtocolData(selectedIndex=5, protocolArray=[P01-GRW, P02-SLK, P03-DY, P04-MGR, P05-VCT, P06-LUX, P07-SMA, P08-INH, P09-SOL, P10-AFO, P11-STU]), rs485=SettingsProtocolData(selectedIndex=1, protocolArray=[P01-GRW, P02-LUX, P03-SCH, P04-INH, P05-VOL])"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "REQUEST",
+        "message": "getSettingData called, initial delay=0"
+      },
+      {
+        "timestamp": "12:21:51 23.02.2026",
+        "type": "CONNECTION",
+        "message": "Settings screen connection status update: connected=true"
+      },
+      {
+        "timestamp": "12:21:34 23.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "12:21:34 23.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cb00000cfe0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0d00001400140014006300640064006300000000000000000000000215752a00141414140000001003e80000e224"
+      },
+      {
+        "timestamp": "12:21:34 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:34 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:33 23.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "12:21:33 23.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cb00000cfe0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0cff001400130014006300640064006300000000000000000000000215752a00141414140000001003e80000f48f"
+      },
+      {
+        "timestamp": "12:21:33 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:32 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:31 23.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "12:21:31 23.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cb00000cfe0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0cff001400130014006300640064006300000000000000000000000215752a00141414140000001003e80000f48f"
+      },
+      {
+        "timestamp": "12:21:31 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:31 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:29 23.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "12:21:29 23.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cb00000cfe0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0cff001400130014006300640064006300000000000000000000000215752a00141414140000001003e80000f48f"
+      },
+      {
+        "timestamp": "12:21:29 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:29 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:28 23.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "12:21:28 23.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cb00000cfe0d000cff0d000cff0d000cff0d000cff0d000d000d000cff0d000cff0cff001400130014006300640064006300000000000000000000000215752a00141414140000001003e800005c31"
+      },
+      {
+        "timestamp": "12:21:27 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:27 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:26 23.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "12:21:26 23.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cb00000cfe0d000cff0d000cff0d000cff0d000cff0d000d000d000cff0d000cff0cff001400130014006300640064006300000000000000000000000215752a00141414140000001003e800005c31"
+      },
+      {
+        "timestamp": "12:21:26 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Success: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:26 23.02.2026",
+        "type": "BLE_WRITE",
+        "message": "Sending: 01030000002705d0"
+      },
+      {
+        "timestamp": "12:21:24 23.02.2026",
+        "type": "RESPONSE",
+        "message": "BMS data (addr=0x01)"
+      },
+      {
+        "timestamp": "12:21:24 23.02.2026",
+        "type": "RESPONSE",
+        "message": "Data received: 01034e14cb00000cfe0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0d000cff0cff001400130014006300640064006300000000000000000000000215752a00141414140000001003e80000f48f"
+      }
+    ],
+    "statistics": {
+      "totalLogs": 50,
+      "errors": 0,
+      "successes": 40,
+      "warnings": 3
+    },
+    "lastUpdateTime": "12:22:07 23.02.2026"
+  },
+  "bluetoothInfo": {
+    "connectionAttempts": 0,
+    "peripheralName": "BB-51.2V100Ah-0000",
+    "peripheralIdentifier": "A4:C1:37:15:60:57",
+    "state": "connected",
+    "adapterState": "poweredOn"
+  },
+  "connectionProcessInfo": {
+    "steps": [
+      {
+        "timestamp": "12:22:06 23.02.2026",
+        "step": "connection",
+        "status": "success",
+        "message": "Device connected: BB-51.2V100Ah-0000"
+      },
+      {
+        "timestamp": "12:22:06 23.02.2026",
+        "step": "connection",
+        "status": "success",
+        "message": "Diagnostics screen launched"
+      }
+    ]
+  },
+  "rawDataInfo": {
+    "lastReceivedPacket": "4254EB8500000000000000634054DD2F4054FDF44054DD2F4054FDF44054ED914054FDF44054ED914054FDF44054ED914054FDF44054ED914054FDF44054ED914054FDF44054DD2F4054ED91",
+    "packetHistory": [
+      {
+        "timestamp": "12:22:07 23.02.2026",
+        "data": "4254EB8500000000000000634054DD2F4054FDF44054DD2F4054FDF44054ED914054FDF44054ED914054FDF44054ED914054FDF44054ED914054FDF44054ED914054FDF44054DD2F4054ED91",
+        "parseResult": "success"
+      }
+    ],
+    "parseErrors": []
+  },
+  "communicationErrorsInfo": {
+    "timeouts": 0,
+    "crcErrors": 0,
+    "packetLoss": 0,
+    "retries": 0
+  },
+  "systemInfo": {
+    "isLowPowerMode": false,
+    "availableMemory": 268435456,
+    "freeMemory": 19349280,
+    "totalMemory": 29102800,
+    "cpuUsage": 0,
+    "batteryLevel": 46
+  },
+  "events": [
+    {
+      "timestamp": "12:22:06 23.02.2026",
+      "type": "Connection",
+      "message": "Device connected: BB-51.2V100Ah-0000"
+    },
+    {
+      "timestamp": "12:22:06 23.02.2026",
+      "type": "Data Update",
+      "message": "New battery data received"
+    },
+    {
+      "timestamp": "12:22:06 23.02.2026",
+      "type": "Connection",
+      "message": "Diagnostics screen launched"
+    }
+  ],
+  "timestamp": "12:22:07 23.02.2026"
+}
